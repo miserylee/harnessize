@@ -114,13 +114,20 @@ describe('run', () => {
     await expect(run(['context', 'conduct'], '/workspace')).resolves.toBe(0);
 
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Application Loop'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Baseline Conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Form an explicit plan'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Plan before changing'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('focused, reversible steps'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Prefer the existing path'));
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('simplest sufficient explanation or solution'),
     );
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Calibrate confidence'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Extension Boundary'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Domain Extension: Coding'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Add an abstraction only when'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Scale verification to risk'));
   });
 
   it('rejects unknown context topics', async () => {
@@ -130,5 +137,16 @@ describe('run', () => {
     await expect(run(['context', 'missing'], '/workspace')).resolves.toBe(1);
 
     expect(stderr).toHaveBeenCalledWith(expect.stringContaining('Unknown context topic: missing'));
+  });
+
+  it('keeps conduct domains inside the conduct topic', async () => {
+    vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+    const stderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
+
+    await expect(run(['context', 'conduct-coding'], '/workspace')).resolves.toBe(1);
+
+    expect(stderr).toHaveBeenCalledWith(
+      expect.stringContaining('Unknown context topic: conduct-coding'),
+    );
   });
 });

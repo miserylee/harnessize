@@ -2,7 +2,7 @@
 
 Date: 2026-06-27
 
-Status: Baseline implemented
+Status: Baseline and coding domain implemented
 
 ## Context
 
@@ -88,6 +88,18 @@ engineering handbook.
 
 The first version should stay small and domain-neutral:
 
+Application loop:
+
+1. Inspect enough context to avoid guessing.
+2. Form an explicit plan before changing durable state.
+3. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.
+4. Choose the existing or simplest sufficient path.
+5. Move in focused, reversible steps.
+6. Verify what changed.
+7. Report the outcome, limits, and any needed user decision concisely.
+
+Baseline rules:
+
 1. Understand before acting: inspect available context before broad changes or confident claims.
 2. Prefer the existing path: reuse repository patterns, local helpers, platform features, and
    already-available dependencies before adding new machinery.
@@ -95,20 +107,32 @@ The first version should stay small and domain-neutral:
    architecture, process, or rule when a simpler one handles the evidence and requirements.
 4. Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when
    the difference matters.
-5. Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose
+5. Plan before changing: do not edit durable state before the intended approach is clear.
+6. Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose
    changes that are easy to inspect or undo when practical.
-6. Prefer useful small steps: keep changes, questions, and user-facing messages focused.
-7. Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
-8. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
+7. Prefer useful small steps: keep changes, questions, and user-facing messages focused.
+8. Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
+9. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
    reason.
-9. Verify before closing: run relevant checks or clearly report what could not be verified.
-10. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
+10. Verify before closing: run relevant checks or clearly report what could not be verified.
+11. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
     language context; compress filler, not necessary technical content.
-11. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
+12. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
     material harm.
 
 Domain extensions can later refine this baseline for coding, testing, design, documentation,
 research, or release work.
+
+## Conduct Domain Extensions
+
+Domain extensions belong inside the `conduct` topic, not as independent root topics.
+
+The first domain extension is coding conduct. Use it for implementation, refactoring, and review
+work. It extends the baseline with coding-specific behavior around repository fit, restraint,
+correctness, verification, and handoff.
+
+It should stay focused on coding conduct. Testing, design, documentation, research, and release
+behavior can become separate domain extensions when needed.
 
 ## Prompt Design Pitfall
 
@@ -283,3 +307,117 @@ Guideline for this topic:
 - Decisions: Ship `conduct` v1 as baseline conduct only. Do not include coding, testing, design, or
   other domain conduct extensions in this first implementation.
 - Open questions: Which domain conduct extension should be designed first after baseline usage.
+
+### Turn 11 - Make baseline more executable - 2026-06-27 03:33 +08:00
+
+- User signal: The user asked to improve `conduct` before moving on.
+- Agent work: The current dogfood `dist` output and decision record were reviewed. The improvement
+  target was narrowed to usability: the baseline was reorganized from a flat rule list into an
+  application loop plus grouped baseline rules, without adding domain extensions.
+- Sources:
+  - `node dist/cli.js context conduct`
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: `conduct` should present a short application loop before baseline rules so agents can
+  apply the behavior in order.
+- Open questions: Whether future refinements should reduce the rule count further before adding
+  domain extensions.
+
+### Turn 12 - Add coding domain conduct - 2026-06-27 03:37 +08:00
+
+- User signal: The user asked to continue adding domain behavior.
+- Agent work: The first attempt incorrectly implemented coding conduct as a separate
+  `conduct-coding` root topic.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `README.md`
+  - `CHANGELOG.md`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Superseded by Turn 13.
+- Open questions: None.
+
+### Turn 13 - Keep domains inside conduct - 2026-06-27 03:39 +08:00
+
+- User signal: The user corrected that domain extensions should not be added as separate topics.
+- Agent work: The independent `conduct-coding` topic and root routing were removed. Coding conduct
+  was moved inside the `conduct` topic as a domain extension, and tests were updated to reject
+  `conduct-coding` as an unknown root topic.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `README.md`
+  - `CHANGELOG.md`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Domain behavior extensions belong inside `context conduct`; they should not create new
+  root topics unless a future discussion explicitly changes the topic model.
+- Open questions: Which domain extension should be added next inside `conduct`.
+
+### Turn 14 - Plan before change - 2026-06-27 03:48 +08:00
+
+- User signal: The user clarified that the bad case is not coding-specific. Any change behavior
+  needs a plan first; making changes before the approach is settled is wrong.
+- Agent work: The principle was reframed from a narrow "clarify shape for special cases" rule into
+  a general conduct principle: every change needs a plan before action. The remaining question is
+  when that plan must be discussed with the user versus safely inferred and executed.
+- Sources:
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Conduct should distinguish "must have a plan" from "must ask the user". All changes
+  require an internal plan; user confirmation is needed when the plan cannot be safely inferred, has
+  materially different valid shapes, changes durable/public boundaries, or carries meaningful risk.
+- Open questions: How to phrase this in the distributed `conduct` guidance without encouraging
+  excessive confirmation for trivial edits.
+
+### Turn 15 - Distribute plan-before-change rule - 2026-06-27 03:52 +08:00
+
+- User signal: The user asked to land the plan-before-change principle into the actual rules and
+  audit distributed content so it does not contain personal or current-repository internal content.
+- Agent work: The conduct application loop and baseline rules were updated with a distributable
+  plan-before-change formulation. Distributed README and changelog wording were reviewed and
+  dogfood/internal phrasing was removed.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `README.md`
+  - `CHANGELOG.md`
+  - `package.json`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Distributed conduct should say: form an explicit plan before changing durable state,
+  and confirm it with the user when shape, impact, or risk cannot be safely inferred.
+- Open questions: None.
+
+### Turn 16 - Keep public manifest metadata - 2026-06-27 03:54 +08:00
+
+- User signal: The user pointed out that open-source manifest metadata should not be treated as
+  internal content.
+- Agent work: `package.json` was checked. Public package metadata such as repository, bugs,
+  homepage, license, package name, and publish configuration remained intact.
+- Sources:
+  - `package.json`
+  - `README.md`
+  - `CHANGELOG.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Distribution audits should distinguish private/internal leakage from legitimate public
+  package metadata. Public open-source manifest fields must not be removed merely because they name
+  the repository or maintainer-owned project URL.
+- Open questions: None.
+
+### Turn 17 - Avoid over-cleaning public project context - 2026-06-27 03:55 +08:00
+
+- User signal: The user pointed out that removing `dogfood` and scaffold-era wording from
+  README/CHANGELOG was also over-cleaning.
+- Agent work: The distribution audit boundary was corrected again. Public, accurate, useful project
+  context is not private/internal leakage merely because it describes project history or dogfood
+  status.
+- Sources:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Distribution audits should remove private/personal/current-workspace leakage and
+  non-user-facing implementation accidents, but should preserve public project history and accurate
+  open-source context when it helps users understand the package.
+- Open questions: Whether to restore the removed README/CHANGELOG wording exactly or rewrite it into
+  clearer public-facing language.

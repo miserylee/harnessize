@@ -20,5 +20,6 @@ describe('formatHarnessPlan', () => {
 
     expect(output).toContain('Target: /repo');
     expect(output).toContain('Planned steps:');
+    expect(output).toContain('Repository-writing behavior is not enabled yet');
   });
 });

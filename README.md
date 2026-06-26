@@ -50,8 +50,8 @@ execution.
 `feature` guides feature lifecycle design and authoritative feature production materials, including
 feature specs and semantic use cases.
 
-`conduct` guides baseline agent behavior across work types. The first version is baseline-only;
-domain-specific behavior extensions can be added later.
+`conduct` guides baseline agent behavior across work types and includes domain extensions such as
+coding conduct for implementation, refactoring, and review work.
 
 ## Development
 

@@ -44,6 +44,18 @@ added one by one.
 The harnessize repository itself should be dogfooded. It should be harnessized using harnessize and
 should carry the same thin `AGENTS.md` style expected from user repositories.
 
+For this repository's dogfood state, `AGENTS.md` should use the local built CLI:
+
+```sh
+node dist/cli.js context
+```
+
+User repositories should continue to use the stable npm handoff:
+
+```sh
+npx harnessize@latest context
+```
+
 ## Intended Shape
 
 Default `init` behavior should eventually:
@@ -91,6 +103,21 @@ long time. Root context is the stable handoff point.
   `npx harnessize@latest context`.
 - Sources: Conversation synthesis; no external source.
 - Decisions: Generated `AGENTS.md` should not list concrete topic names.
+- Open questions: None.
+
+### Turn 3 - Dogfood local dist context - 2026-06-27 03:29 +08:00
+
+- User signal: The user asked the dogfood version to run the local `dist` CLI and update
+  `AGENTS.md`.
+- Agent work: The local built CLI was verified with `node dist/cli.js context`, then `AGENTS.md` was
+  changed to use that command for this repository's root context guidance.
+- Sources:
+  - `AGENTS.md`
+  - `dist/cli.js`
+  - `docs/decisions/0001-thin-agent-facing-harness.md`
+- Decisions: The harnessize repository dogfoods unreleased context behavior through
+  `node dist/cli.js context`. Generated or user-repository guidance should still use
+  `npx harnessize@latest context`.
 - Open questions: None.
 
 ## Non-Goals For The First Implementation Pass

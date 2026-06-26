@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.3.0
 
-- Add `harnessize context conduct` for baseline agent behavior guidelines.
+- Add `harnessize context conduct` for baseline agent behavior guidelines and coding conduct.
 - Add `harnessize context feature` for feature lifecycle design and authoritative feature
   production materials.
 - Tighten `feature` guidance so feature-level changes create or update feature specs and the feature

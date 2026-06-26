@@ -51,7 +51,7 @@ export function formatHarnessPlan(plan: HarnessPlan): string {
     'Planned steps:',
     ...plan.tasks.map((task) => `- ${task.id}: ${task.description}`),
     '',
-    'The CLI scaffold is ready. Concrete harnessing behavior will be added next.',
+    'Repository-writing behavior is not enabled yet. Use `harnessize context` for agent-facing guidance.',
   ];
 
   return lines.join('\n');

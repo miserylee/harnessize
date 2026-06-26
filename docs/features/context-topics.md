@@ -29,8 +29,8 @@ Goals:
   `brainstorm`.
 - [Decision 0005](../decisions/0005-feature-docs-topic.md): `feature` topic and feature production
   material governance.
-- [Decision 0006](../decisions/0006-agent-behavior-guidelines-topic.md): `conduct` topic baseline
-  agent behavior guidelines.
+- [Decision 0006](../decisions/0006-agent-behavior-guidelines-topic.md): `conduct` baseline and
+  domain behavior guidelines.
 - Runtime implementation: `src/context.ts`
 - CLI behavior tests: `test/cli.test.ts`
 - Repository agent handoff: `AGENTS.md`
@@ -76,8 +76,8 @@ the current user intent needs them.
   approach.
 - `feature` is for maintaining feature-level production materials, including feature specs,
   semantic use cases, artifact references, and authoritative feature state.
-- `conduct` is for baseline agent behavior guidelines across work types. The first implementation
-  is baseline-only; domain-specific behavior extensions can be added later.
+- `conduct` is for baseline agent behavior guidelines across work types, with domain extensions such
+  as coding conduct inside the same topic.
 - `AGENTS.md` remains thin. It points agents to root context and the repository documentation index,
   not to a hardcoded list of focused topics.
 - Repository documentation indexes are materialized in `docs/README.md` and per-domain index files.
@@ -108,9 +108,11 @@ the current user intent needs them.
 - Conduct topic:
   - Provide a compact baseline behavior contract for agents.
   - Cover cross-domain conduct such as context inspection, reuse, simplicity, confidence
-    calibration, reversibility, focused steps, verification, and low cognitive load communication.
-  - Leave coding, testing, design, documentation, research, and release-specific behavior
-    extensions for later focused additions.
+    calibration, planning before change, reversibility, focused steps, verification, and low
+    cognitive load communication.
+  - Include domain extensions inside the topic when sharper behavior guidance is needed.
+  - Use coding conduct for implementation, refactoring, and review work with emphasis on repository
+    fit, restraint, correctness, and clear handoff.
 
 ## Semantic Use Cases
 
@@ -130,9 +132,13 @@ the current user intent needs them.
   When the agent reads `context feature`
   Then the agent creates or updates the feature spec and updates the feature index.
 
-- Given an agent needs cross-domain behavior guidance before domain-specific conduct exists
+- Given an agent needs cross-domain behavior guidance before domain-specific conduct is needed
   When the agent reads `context conduct`
-  Then the agent follows the baseline conduct rules without loading nonexistent domain extensions.
+  Then the agent follows the baseline conduct rules without loading unrelated domain extensions.
+
+- Given an agent is making implementation changes
+  When the agent reads `context conduct`
+  Then the agent follows the coding domain extension without needing a separate root topic.
 
 - Given documentation is added, moved, renamed, or materially changed
   When the agent completes the change

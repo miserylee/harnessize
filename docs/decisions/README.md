@@ -21,5 +21,7 @@ project state exists.
   lifecycle design, authoritative feature production materials, feature specs, and semantic use
   cases.
 - [0006: Agent Behavior Guidelines Topic](0006-agent-behavior-guidelines-topic.md): Defines the
-  `conduct` topic baseline for agent behavior guidelines and tracks future domain-specific behavior
-  extensions.
+  `conduct` baseline and domain extensions for agent behavior guidelines.
+- [0007: Project Development Boundaries](0007-project-development-boundaries.md): Defines where
+  project development norms live and how to keep repository-local, distributed, dogfood, and
+  decision-record boundaries separate.
