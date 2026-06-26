@@ -1,6 +1,6 @@
 # Context Topics Feature Spec
 
-Status: Implemented on `main` for the unreleased `0.3.0` package line.
+Status: Implemented on `main` for the `0.3.1` package line.
 
 ## Background And Goals
 
@@ -10,7 +10,7 @@ the user's repository.
 
 Goals:
 
-- Keep the cold-start prompt short enough for a user to tell their agent to run `npx harnessize@latest`
+- Keep the cold-start prompt short enough for a user to tell their agent to run `npx -y harnessize@latest`
   and follow its guidance.
 - Keep generated repository guidance thin and stable.
 - Use root context as the stable agent-facing workflow entrypoint.
@@ -37,9 +37,9 @@ Goals:
 
 ## User Stories
 
-- As a repository user, I can ask my agent to run `npx harnessize@latest` and get a minimal
+- As a repository user, I can ask my agent to run `npx -y harnessize@latest` and get a minimal
   harnessing entrypoint.
-- As a repository user, I can ask my agent to run `npx harnessize@latest context` and receive root
+- As a repository user, I can ask my agent to run `npx -y harnessize@latest context` and receive root
   workflow guidance without topic-specific noise.
 - As an agent, I can choose `brainstorm`, `grill`, `feature`, or `conduct` based on user intent and
   artifact maturity.
@@ -53,15 +53,20 @@ Goals:
 The context interface is command-line Markdown output:
 
 ```sh
-npx harnessize@latest context
-npx harnessize@latest context brainstorm
-npx harnessize@latest context grill
-npx harnessize@latest context feature
-npx harnessize@latest context conduct
+npx -y harnessize@latest context
+npx -y harnessize@latest context brainstorm
+npx -y harnessize@latest context grill
+npx -y harnessize@latest context feature
+npx -y harnessize@latest context conduct
 ```
 
-The root context provides general operating rules, documentation maintenance rules, topic routing,
-available topics, and the focused topic command shape.
+The root context provides session rules, the baseline conduct contract, documentation maintenance
+rules, topic routing, available topics, and the focused topic command shape. The baseline lives in
+root context so agents always receive one authoritative behavior contract before choosing focused
+topics. When conversation context compaction removes the root context from short-term memory, agents
+should reload the root context before continuing repository work. Root context must explicitly tell
+agents to use `npx -y harnessize@latest context` and to include `-y` for npx-based harnessize
+invocations.
 
 Focused topics provide deeper agent-facing workflow guidance only after the root context determines
 the current user intent needs them.
@@ -76,20 +81,26 @@ the current user intent needs them.
   approach.
 - `feature` is for maintaining feature-level production materials, including feature specs,
   semantic use cases, artifact references, and authoritative feature state.
-- `conduct` is for baseline agent behavior guidelines across work types, with domain extensions such
-  as coding conduct inside the same topic.
+- `conduct` extends root baseline conduct for production work or durable project changes, with
+  domain extensions such as coding conduct inside the same topic. It does not restate the baseline.
 - `AGENTS.md` remains thin. It points agents to root context and the repository documentation index,
-  not to a hardcoded list of focused topics.
+  not to a hardcoded list of focused topics. It must require root context as session bootstrap and
+  tell agents to reload it if conversation compaction removes it from short-term memory.
 - Repository documentation indexes are materialized in `docs/README.md` and per-domain index files.
 
 ## Functional Breakdown
 
 - Root context:
   - Explain harnessize's progressive context model.
+  - Identify `npx -y harnessize@latest context` as the non-interactive root guideline command.
+  - Provide the authoritative baseline conduct contract before any focused topic is loaded.
+  - Instruct agents to reload root context after conversation compaction when it is no longer in
+    short-term memory.
   - Preserve ordinary Q&A outside focused topics when no production or durable knowledge impact
     exists.
   - Route exploration to `brainstorm`, concrete critique to `grill`, and feature production
     material maintenance to `feature`.
+  - Route production actions and domain extension needs to `conduct`.
   - Require complete repository documentation indexes with concise summaries and traceable retrieval
     chains.
 - Brainstorm topic:
@@ -106,10 +117,10 @@ the current user intent needs them.
   - Keep feature specs authoritative, concise, and free of task execution logs.
   - Maintain `docs/features/README.md` whenever feature specs change.
 - Conduct topic:
-  - Provide a compact baseline behavior contract for agents.
-  - Cover cross-domain conduct such as context inspection, reuse, simplicity, confidence
-    calibration, planning before change, reversibility, focused steps, verification, and low
-    cognitive load communication.
+  - Extend root baseline conduct for production work and domain-specific needs without restating the
+    baseline.
+  - Identify durable production surfaces, owning files, references, expected behavior changes, and
+    likely verification paths.
   - Include domain extensions inside the topic when sharper behavior guidance is needed.
   - Use coding conduct for implementation, refactoring, and review work with emphasis on repository
     fit, restraint, correctness, and clear handoff.
@@ -132,13 +143,31 @@ the current user intent needs them.
   When the agent reads `context feature`
   Then the agent creates or updates the feature spec and updates the feature index.
 
-- Given an agent needs cross-domain behavior guidance before domain-specific conduct is needed
+- Given an agent starts harnessize-guided repository work
+  When the agent reads root context
+  Then the agent receives the authoritative baseline conduct before choosing any focused topic.
+
+- Given an agent needs production behavior guidance beyond the root baseline
   When the agent reads `context conduct`
-  Then the agent follows the baseline conduct rules without loading unrelated domain extensions.
+  Then the agent applies production extensions without restating or replacing the root baseline.
 
 - Given an agent is making implementation changes
   When the agent reads `context conduct`
   Then the agent follows the coding domain extension without needing a separate root topic.
+
+- Given an agent is about to make a durable project change
+  When the agent reads root context
+  Then the agent applies the root baseline and loads `conduct` when production extensions are needed.
+
+- Given a user proposes a solution that may conflict with evidence, constraints, or the user's stated
+  goals
+  When the agent reads root context
+  Then the agent investigates enough context, surfaces contradictions, and asks for clarification,
+  redirects, or refuses instead of blindly executing.
+
+- Given an agent resumes after conversation context compaction
+  When the root context is no longer available in short-term memory
+  Then the agent reloads root context before continuing repository work.
 
 - Given documentation is added, moved, renamed, or materially changed
   When the agent completes the change
@@ -148,6 +177,7 @@ the current user intent needs them.
 
 - npm package: `harnessize`
 - GitHub repository: `https://github.com/miserylee/harnessize`
+- Public package docs: `README.md`
 - Runtime source: `src/context.ts`
 - CLI tests: `test/cli.test.ts`
 - Repository docs index: `docs/README.md`

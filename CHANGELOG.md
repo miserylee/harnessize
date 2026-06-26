@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.3.1
+
+- Make all recommended `npx` invocations non-interactive with `npx -y harnessize@latest`.
+- Require root context as session bootstrap and recovery after conversation compaction.
+- Move the single authoritative baseline conduct contract into root context.
+- Change `conduct` to extend root baseline conduct for production and domain-specific work instead
+  of duplicating the baseline.
+- Add critical evaluation guidance so agents investigate user requests and proposed solutions before
+  executing.
+
 ## 0.3.0
 
 - Add `harnessize context conduct` for baseline agent behavior guidelines and coding conduct.

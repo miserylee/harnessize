@@ -15,7 +15,7 @@ agent to focused topics only when needed.
 The root command:
 
 ```sh
-npx harnessize@latest context
+npx -y harnessize@latest context
 ```
 
 should output harnessize's general agent-facing guidelines.
@@ -30,6 +30,12 @@ The root context should explain:
 6. Durable decisions and material findings should be recorded when the work creates project
    knowledge.
 7. Relevant verification should run before implementation work is reported complete.
+8. Root context should provide the authoritative baseline conduct contract before focused topics are
+   loaded.
+9. The agent should evaluate user requests and proposed solutions against available context before
+   executing, surfacing contradictions or asking for clarification when needed.
+10. If conversation context compaction removes root context from the agent's short-term memory, the
+    agent should rerun root context before continuing repository work.
 
 The available topic list may appear inside the root context, but it is secondary to the workflow
 guidelines.
@@ -37,9 +43,9 @@ guidelines.
 Implemented topics currently include:
 
 ```sh
-npx harnessize@latest context brainstorm
-npx harnessize@latest context grill
-npx harnessize@latest context feature
+npx -y harnessize@latest context brainstorm
+npx -y harnessize@latest context grill
+npx -y harnessize@latest context feature
 ```
 
 Root routing should distinguish intent and artifact maturity:
@@ -192,6 +198,72 @@ own document shapes, while root context provides cross-topic maintenance rules.
   - `docs/decisions/0003-root-context-guidelines.md`
 - Decisions: Do not encode documentation indexes as an init concern. Root context should guide
   progressive index maintenance only when documentation domains exist.
+- Open questions: None.
+
+### Turn 9 - Recover root context after compaction - 2026-06-27 04:12 +08:00
+
+- User signal: The user said `AGENTS.md` should force root context and should emphasize that agents
+  must trigger root context again if context compaction leaves short-term memory without it.
+- Agent work: Root context operating rules were updated with a compaction recovery rule, and
+  `AGENTS.md` was updated to make root context required session bootstrap.
+- Sources:
+  - `AGENTS.md`
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: Root context should be reloadable operational memory. If the agent can no longer rely
+  on it after compaction, it should rerun the root context command before continuing repository work.
+- Open questions: None.
+
+### Turn 10 - Make non-interactive npx explicit in root context - 2026-06-27 04:18 +08:00
+
+- User signal: The user pointed out that root context guidance itself also needed the `npx -y`
+  update.
+- Agent work: Root context opening guidance was changed to explicitly name
+  `npx -y harnessize@latest context`, and a short rule was added to include `-y` for npx-based
+  harnessize invocations.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: Root context must not rely only on its usage footer for non-interactive invocation. It
+  should state the non-interactive command in the main guidance so agents see it before routing
+  topics.
+- Open questions: None.
+
+### Turn 11 - Add user-proposal evaluation rule - 2026-06-27 04:23 +08:00
+
+- User signal: The user said user requests and proposed solutions are not necessarily correct, so
+  agents should judge them instead of directly executing.
+- Agent work: Root operating rules were updated to require evaluating user requests and proposed
+  solutions against available context before execution, including surfacing contradictions,
+  requesting clarification, or declining when needed.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: Root context should own the authoritative baseline conduct rule for evaluating user
+  direction. `context conduct` may extend that baseline for production work, but should not restate a
+  second baseline.
+- Open questions: None.
+
+### Turn 12 - Keep baseline conduct in root - 2026-06-27 04:26 +08:00
+
+- User signal: The user rejected a split between a minimal root baseline and a fuller `conduct`
+  baseline, then clarified that baseline belongs in root.
+- Agent work: Root context was reshaped to carry the full baseline conduct contract. `context
+conduct` was changed to depend on the root baseline and only add production/domain extensions.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: Agents consume behavior guidance in this order: `AGENTS.md` forces root context; root
+  provides the single authoritative baseline; focused topics add only their own workflow or domain
+  extensions.
 - Open questions: None.
 
 ## Non-Goals

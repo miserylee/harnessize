@@ -38,8 +38,8 @@ describe('parseArgs', () => {
 
 describe('helpText', () => {
   it('documents npx usage', () => {
-    expect(helpText()).toContain('npx harnessize [target] [options]');
-    expect(helpText()).toContain('npx harnessize context [topic]');
+    expect(helpText()).toContain('npx -y harnessize@latest [target] [options]');
+    expect(helpText()).toContain('npx -y harnessize@latest context [topic]');
   });
 });
 
@@ -56,6 +56,25 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('agent-facing workflow guidance'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('soft-orchestrating agent work'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Use `npx -y harnessize@latest context` as the root guideline'),
+    );
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('include `-y` so package execution does not stop'),
+    );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Baseline Conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Application loop'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining("Evaluate the user's request and proposed approach"),
+    );
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Form an explicit plan before changing durable state'),
+    );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Prefer the existing path'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('rerun `npx -y harnessize@latest context`'),
+    );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Evaluate user direction'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('brainstorm'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('grill'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
@@ -65,6 +84,12 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/README.md'));
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Indexes MUST include concise summaries'),
+    );
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Use `conduct` before production actions'),
+    );
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Combine `conduct` with another focused topic'),
     );
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('answer normally first'));
   });
@@ -114,16 +139,17 @@ describe('run', () => {
     await expect(run(['context', 'conduct'], '/workspace')).resolves.toBe(0);
 
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: conduct'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Application Loop'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Baseline Conduct'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Form an explicit plan'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Plan before changing'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('focused, reversible steps'));
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Prefer the existing path'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('production work'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('ordinary Q&A'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Root Baseline Dependency'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('root baseline conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Production Extension'));
     expect(stdout).toHaveBeenCalledWith(
-      expect.stringContaining('simplest sufficient explanation or solution'),
+      expect.stringContaining('Identify the durable surface being changed'),
     );
-    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Calibrate confidence'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Baseline conduct lives in root context'),
+    );
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Extension Boundary'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Domain Extension: Coding'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Add an abstraction only when'));

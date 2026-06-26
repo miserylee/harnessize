@@ -215,59 +215,41 @@ When a feature changes, update the feature spec to the new authoritative state. 
 
 const conductTopic: ContextTopic = {
   name: 'conduct',
-  summary: 'Guide baseline agent behavior before domain-specific extensions are needed.',
+  summary: 'Extend root baseline conduct for production work, durable changes, and domains.',
   body: `# harnessize context: conduct
 
-Use this topic when the agent needs baseline behavior guidance that applies across conversation, design, coding, testing, documentation, research, or release work.
+Use this topic when the agent is about to perform production work such as code changes, documentation changes, tests, design work, refactoring, review, release work, or other durable project changes.
 
-Do not use this topic as a replacement for more specific topics. Load domain-specific guidance later only when the current work needs it.
+Also use this topic when another topic defines the material type but not enough production or domain guidance. For example, use \`feature\` for authoritative feature materials and \`conduct\` for production execution guidance.
+
+Do not use this topic for ordinary Q&A, lightweight explanation, or replies that do not affect production work, project knowledge, or durable state.
 
 ## Purpose
 
-Keep agent work useful, restrained, verifiable, and easy for the user to follow.
+Extend root baseline conduct for production work, durable changes, and domain-specific execution.
 
-## Application Loop
+## Root Baseline Dependency
 
-1. Inspect enough context to avoid guessing.
-2. Form an explicit plan before changing durable state.
-3. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.
-4. Choose the existing or simplest sufficient path.
-5. Move in focused, reversible steps.
-6. Verify what changed.
-7. Report the outcome, limits, and any needed user decision concisely.
+Read \`npx -y harnessize@latest context\` first. This topic assumes the root baseline conduct is already active.
 
-## Baseline Conduct
+Do not treat this topic as a standalone replacement for root context. It adds production and domain guidance on top of the root baseline.
 
-Judgment:
+## Production Extension
 
-- Understand before acting: inspect available context before broad changes or confident claims.
-- Prefer the existing path: reuse repository patterns, local helpers, platform features, and already-available dependencies before adding new machinery.
-- Prefer the simplest sufficient explanation or solution: do not choose a more complex model, architecture, process, or rule when a simpler one handles the evidence and requirements.
-- Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when the difference matters.
-
-Execution:
-
-- Plan before changing: do not edit durable state before the intended approach is clear.
-- Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose changes that are easy to inspect or undo when practical.
-- Prefer useful small steps: keep changes, questions, and user-facing messages focused.
-- Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
-- Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete reason.
-- Verify before closing: run relevant checks or clearly report what could not be verified.
-
-Communication:
-
-- Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's language context; compress filler, not necessary technical content.
-- Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely, material harm.
+- Identify the durable surface being changed: code, docs, tests, design materials, release artifacts, or repository state.
+- Load any focused topic that owns the material type, such as \`feature\` for authoritative feature materials.
+- Before editing, identify the owning files, relevant references, expected behavior change, and likely verification path.
+- Keep production handoff tied to behavior, verification, residual risk, and any unresolved user decision.
 
 ## Extension Boundary
 
-This baseline is domain-neutral. Use the domain extension below only when the work needs sharper guidance for that area.
+Baseline conduct lives in root context. This topic only adds production and domain-specific guidance.
 
 Do not copy behavior systems wholesale into harnessize. Absorb useful ideas into compact rules that match this project and the user's context.
 
 ## Domain Extension: Coding
 
-Use this extension when the agent is writing, modifying, refactoring, or reviewing implementation code. It extends baseline conduct; it does not replace project instructions, feature specs, or focused implementation context.
+Use this extension when the agent is writing, modifying, refactoring, or reviewing implementation code. It extends root baseline conduct; it does not replace project instructions, feature specs, or focused implementation context.
 
 Coding loop:
 
@@ -328,17 +310,52 @@ export function formatRootContext(): string {
     '',
     'Harnessize provides agent-facing workflow guidance through progressive context topics.',
     '',
-    'Use this command as the root guideline for soft-orchestrating agent work. Load focused topics only when the current user intent needs them.',
+    'Use `npx -y harnessize@latest context` as the root guideline for soft-orchestrating agent work. Load focused topics only when the current user intent needs them.',
     '',
-    '## Operating Rules',
+    'When invoking harnessize through npx, include `-y` so package execution does not stop for manual confirmation.',
     '',
-    '- Keep repository changes minimal and reversible.',
-    '- Inspect the repository before making broad edits.',
-    '- Preserve user changes and existing project conventions.',
-    '- Ask the user only for decisions that cannot be safely inferred or discovered.',
+    '## Session Rules',
+    '',
+    '- Treat this root context as required session bootstrap for harnessize-guided repository work.',
+    '- If this root context is no longer available in short-term memory after conversation compaction, rerun `npx -y harnessize@latest context` before continuing repository work.',
+    '- Load focused topics only when the current user intent needs them.',
     '- Prefer focused topic context over large, all-purpose instruction dumps.',
+    '',
+    '## Baseline Conduct',
+    '',
+    'Application loop:',
+    '',
+    '1. Inspect enough context to avoid guessing.',
+    "2. Evaluate the user's request and proposed approach against evidence, constraints, and project goals.",
+    '3. Form an explicit plan before changing durable state.',
+    '4. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.',
+    '5. Choose the existing or simplest sufficient path.',
+    '6. Move in focused, reversible steps.',
+    '7. Verify what changed.',
+    '8. Report the outcome, limits, and any needed user decision concisely.',
+    '',
+    'Judgment:',
+    '',
+    '- Understand before acting: inspect available context before broad changes or confident claims.',
+    "- Evaluate user direction: user requests and proposed solutions can be incomplete, inconsistent, or wrong. Investigate background, corroborate claims, surface contradictions, and refuse or redirect when evidence, safety, project constraints, or the user's stated goals require it.",
+    '- Prefer the existing path: reuse repository patterns, local helpers, platform features, and already-available dependencies before adding new machinery.',
+    '- Prefer the simplest sufficient explanation or solution: do not choose a more complex model, architecture, process, or rule when a simpler one handles the evidence and requirements.',
+    '- Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when the difference matters.',
+    '',
+    'Execution:',
+    '',
+    '- Plan before changing: do not edit durable state before the intended approach is clear.',
+    '- Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose changes that are easy to inspect or undo when practical.',
+    '- Prefer useful small steps: keep changes, questions, and user-facing messages focused.',
+    '- Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.',
+    '- Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete reason.',
     '- Record durable decisions and material findings when the work creates project knowledge.',
-    '- Run relevant verification before reporting implementation work as complete.',
+    '- Verify before closing: run relevant checks or clearly report what could not be verified.',
+    '',
+    'Communication:',
+    '',
+    "- Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's language context; compress filler, not necessary technical content.",
+    '- Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely, material harm.',
     '',
     '## Documentation Maintenance',
     '',
@@ -359,7 +376,8 @@ export function formatRootContext(): string {
     '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea and the discussion is likely to affect project direction, production work, or durable knowledge.',
     '- Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.',
     '- Use `feature` when maintaining feature-level production materials such as feature specs, semantic use cases, artifact references, or authoritative feature state.',
-    '- Use `conduct` when the agent needs baseline behavior guidance across work types before any domain-specific extension is needed.',
+    '- Use `conduct` before production actions such as code changes, documentation changes, tests, design work, refactoring, review, or release work.',
+    '- Combine `conduct` with another focused topic when that topic defines the material type but production or domain guidance is still needed.',
     '- If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the work becomes decision-bearing.',
     '- Switch to `grill` only after a concrete proposal exists or the user asks for critique.',
     '- Do not use `grill` for vague questions. Pressure testing needs an object to test.',
@@ -369,7 +387,7 @@ export function formatRootContext(): string {
     '',
     '## Usage',
     '',
-    '  npx harnessize@latest context <topic>',
+    '  npx -y harnessize@latest context <topic>',
   ];
 
   return lines.join('\n');

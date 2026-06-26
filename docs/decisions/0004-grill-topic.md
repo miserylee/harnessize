@@ -55,7 +55,7 @@ already exists.
 The topic name is:
 
 ```sh
-npx harnessize@latest context grill
+npx -y harnessize@latest context grill
 ```
 
 Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation

@@ -4,9 +4,9 @@ This is the materialized documentation entrypoint for the harnessize repository.
 
 ## Entry Points
 
-- `AGENTS.md`: Initial agent handoff for this repository. It points agents to the root harnessize
-  context and this documentation index.
-- `npx harnessize@latest context`: Root agent-facing workflow guidance shipped by the npm package.
+- `AGENTS.md`: Initial agent handoff for this repository. It requires root harnessize context as
+  session bootstrap and points agents to this documentation index.
+- `npx -y harnessize@latest context`: Root agent-facing workflow guidance shipped by the npm package.
 
 ## Documentation Domains
 

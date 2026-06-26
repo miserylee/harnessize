@@ -21,7 +21,7 @@ explanations unless the user asks for them.
 The topic is exposed through:
 
 ```sh
-npx harnessize@latest context brainstorm
+npx -y harnessize@latest context brainstorm
 ```
 
 Each assistant turn should focus on one key point or one tightly scoped decision area. A turn may

@@ -3,7 +3,7 @@
 `harnessize` is a CLI for preparing repositories for AI harness workflows.
 
 ```sh
-npx harnessize
+npx -y harnessize@latest
 ```
 
 The repository is currently in its initial scaffold phase. The CLI already exposes the command
@@ -13,8 +13,8 @@ harnessing behavior will be added next.
 ## Usage
 
 ```sh
-npx harnessize [target] [options]
-npx harnessize context [topic]
+npx -y harnessize@latest [target] [options]
+npx -y harnessize@latest context [topic]
 ```
 
 Options:
@@ -30,11 +30,11 @@ Harnessize can provide progressive, agent-facing guidance without copying large 
 target repository.
 
 ```sh
-npx harnessize@latest context
-npx harnessize@latest context brainstorm
-npx harnessize@latest context grill
-npx harnessize@latest context feature
-npx harnessize@latest context conduct
+npx -y harnessize@latest context
+npx -y harnessize@latest context brainstorm
+npx -y harnessize@latest context grill
+npx -y harnessize@latest context feature
+npx -y harnessize@latest context conduct
 ```
 
 `context` prints the root agent-facing guidelines for using harnessize as a soft workflow
@@ -50,8 +50,8 @@ execution.
 `feature` guides feature lifecycle design and authoritative feature production materials, including
 feature specs and semantic use cases.
 
-`conduct` guides baseline agent behavior across work types and includes domain extensions such as
-coding conduct for implementation, refactoring, and review work.
+`conduct` guides agent behavior before production work or durable project changes, and includes
+domain extensions such as coding conduct for implementation, refactoring, and review work.
 
 ## Development
 

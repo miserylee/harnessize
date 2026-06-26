@@ -21,7 +21,7 @@ lifecycle domain and its feature-specific material shapes.
 The topic name should be:
 
 ```sh
-npx harnessize@latest context feature
+npx -y harnessize@latest context feature
 ```
 
 The feature topic should treat feature production materials as authoritative sources, not as task

@@ -8,7 +8,8 @@ This repository uses harnessize for thin, progressive agent guidance.
    decision records and feature materials before making project-shaping changes.
 2. For development workflow and boundary rules, read [CONTRIBUTING.md](CONTRIBUTING.md) before
    making durable changes.
-3. For repository workflow guidance, use the dogfood root context from the local built CLI:
+3. For repository workflow guidance, you MUST load the dogfood root context from the local built CLI
+   before acting on repository work:
 
    ```sh
    node dist/cli.js context
@@ -16,8 +17,11 @@ This repository uses harnessize for thin, progressive agent guidance.
 
    After changing CLI source, run `npm run build` before relying on `dist`.
 
-Follow the root context to choose any focused topic supported by the local dogfood harnessize
-version.
+Treat the root context as required session bootstrap. If conversation context has been compacted or
+your short-term memory no longer contains the harnessize root context, run `node dist/cli.js context`
+again before continuing repository work.
+
+Follow the root context to choose any focused topic supported by the local dogfood harnessize version.
 
 When docs are added, moved, renamed, or materially changed, update the relevant index so the
 retrieval chain stays complete.

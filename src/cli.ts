@@ -105,8 +105,8 @@ export function helpText(): string {
   return `harnessize
 
 Usage:
-  npx harnessize [target] [options]
-  npx harnessize context [topic]
+  npx -y harnessize@latest [target] [options]
+  npx -y harnessize@latest context [topic]
 
 Options:
   --dry-run      Preview planned harnessization steps without writing files.
@@ -124,7 +124,7 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     process.stderr.write(`harnessize: ${message}\n`);
-    process.stderr.write('Run `npx harnessize --help` for usage.\n');
+    process.stderr.write('Run `npx -y harnessize@latest --help` for usage.\n');
     return 1;
   }
 

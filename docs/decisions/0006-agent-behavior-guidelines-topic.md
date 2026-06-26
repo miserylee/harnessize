@@ -2,7 +2,7 @@
 
 Date: 2026-06-27
 
-Status: Baseline and coding domain implemented
+Status: Root baseline and conduct extensions implemented
 
 ## Context
 
@@ -11,7 +11,7 @@ Harnessize may need a focused topic for agent behavior guidelines.
 The topic name is:
 
 ```sh
-npx harnessize@latest context conduct
+npx -y harnessize@latest context conduct
 ```
 
 The scope is intentionally not settled yet. Candidate areas include conversation style, design
@@ -84,51 +84,58 @@ The main risk is scope creep. "Agent behavior guidelines" can absorb everything.
 clear first version, probably as a compact baseline behavior contract rather than an exhaustive
 engineering handbook.
 
-## Candidate V1 Baseline Conduct
+## Root Baseline Conduct
 
-The first version should stay small and domain-neutral:
+The baseline conduct contract lives in root context so every harnessize-guided session receives one
+authoritative behavior baseline before focused topics are selected.
 
 Application loop:
 
 1. Inspect enough context to avoid guessing.
-2. Form an explicit plan before changing durable state.
-3. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.
-4. Choose the existing or simplest sufficient path.
-5. Move in focused, reversible steps.
-6. Verify what changed.
-7. Report the outcome, limits, and any needed user decision concisely.
+2. Evaluate the user's request and proposed approach against evidence, constraints, and project
+   goals.
+3. Form an explicit plan before changing durable state.
+4. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.
+5. Choose the existing or simplest sufficient path.
+6. Move in focused, reversible steps.
+7. Verify what changed.
+8. Report the outcome, limits, and any needed user decision concisely.
 
 Baseline rules:
 
 1. Understand before acting: inspect available context before broad changes or confident claims.
-2. Prefer the existing path: reuse repository patterns, local helpers, platform features, and
+2. Evaluate user direction: user requests and proposed solutions can be incomplete, inconsistent, or
+   wrong. Investigate background, corroborate claims, surface contradictions, and refuse or redirect
+   when evidence, safety, project constraints, or the user's stated goals require it.
+3. Prefer the existing path: reuse repository patterns, local helpers, platform features, and
    already-available dependencies before adding new machinery.
-3. Prefer the simplest sufficient explanation or solution: do not choose a more complex model,
+4. Prefer the simplest sufficient explanation or solution: do not choose a more complex model,
    architecture, process, or rule when a simpler one handles the evidence and requirements.
-4. Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when
+5. Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when
    the difference matters.
-5. Plan before changing: do not edit durable state before the intended approach is clear.
-6. Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose
+6. Plan before changing: do not edit durable state before the intended approach is clear.
+7. Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose
    changes that are easy to inspect or undo when practical.
-7. Prefer useful small steps: keep changes, questions, and user-facing messages focused.
-8. Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
-9. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
-   reason.
-10. Verify before closing: run relevant checks or clearly report what could not be verified.
-11. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
+8. Prefer useful small steps: keep changes, questions, and user-facing messages focused.
+9. Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
+10. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
+    reason.
+11. Verify before closing: run relevant checks or clearly report what could not be verified.
+12. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
     language context; compress filler, not necessary technical content.
-12. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
+13. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
     material harm.
 
-Domain extensions can later refine this baseline for coding, testing, design, documentation,
-research, or release work.
+Focused topics can extend this baseline for specific work types, but should not restate or replace
+it.
 
 ## Conduct Domain Extensions
 
-Domain extensions belong inside the `conduct` topic, not as independent root topics.
+Domain extensions belong inside the `conduct` topic, not as independent root topics and not as a
+second baseline.
 
 The first domain extension is coding conduct. Use it for implementation, refactoring, and review
-work. It extends the baseline with coding-specific behavior around repository fit, restraint,
+work. It extends the root baseline with coding-specific behavior around repository fit, restraint,
 correctness, verification, and handoff.
 
 It should stay focused on coding conduct. Testing, design, documentation, research, and release
@@ -224,7 +231,7 @@ Guideline for this topic:
   chosen command topic name.
 - Sources:
   - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
-- Decisions: Use `npx harnessize@latest context conduct` for the behavior guidelines topic.
+- Decisions: Use `npx -y harnessize@latest context conduct` for the behavior guidelines topic.
 - Open questions:
   - What should the first baseline conduct rules include?
   - Which domain conduct extensions should ship in the first implementation?
@@ -295,7 +302,7 @@ Guideline for this topic:
 
 - User signal: The user decided to implement the baseline first and add domain-specific behavior
   extensions later.
-- Agent work: `npx harnessize@latest context conduct` was implemented as a baseline-only topic. Root
+- Agent work: `npx -y harnessize@latest context conduct` was implemented as a baseline-only topic. Root
   context routing, README, changelog, tests, and the context topics feature spec were updated.
 - Sources:
   - `src/context.ts`
@@ -421,3 +428,55 @@ Guideline for this topic:
   open-source context when it helps users understand the package.
 - Open questions: Whether to restore the removed README/CHANGELOG wording exactly or rewrite it into
   clearer public-facing language.
+
+### Turn 18 - Move minimal conduct into root context - 2026-06-27 04:08 +08:00
+
+- User signal: The user asked to improve `conduct` triggering and move common rules into root
+  context as baseline guidance.
+- Agent work: Root context was updated with always-on behavior rules: inspect context, plan before
+  durable changes, confirm uncertain or risky plans, prefer existing/simple paths, move reversibly,
+  and verify. `conduct` triggering was clarified for production actions and cross-domain behavior
+  needs, including use alongside other focused topics.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `README.md`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Root context should carry the universal conduct baseline. `conduct` should be
+  loaded for production work, durable changes, or when another topic defines the work type but not
+  enough behavior guidance.
+- Open questions: None.
+
+### Turn 19 - Add critical evaluation of user direction - 2026-06-27 04:23 +08:00
+
+- User signal: The user said user needs and proposed solutions may be wrong or unreasonable, so an
+  agent must judge them instead of directly executing, including research, contradiction detection,
+  corroboration, refusal, and clarification when needed.
+- Agent work: The baseline judgment rules were updated to evaluate the user's request and proposed
+  approach against evidence, constraints, project goals, safety, and the user's stated goals.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Baseline conduct should explicitly authorize constructive pushback. Agents should
+  investigate enough context, surface contradictions, ask for clarification, redirect, or refuse
+  when evidence or constraints require it.
+- Open questions: None.
+
+### Turn 20 - Keep conduct as extension, not baseline copy - 2026-06-27 04:26 +08:00
+
+- User signal: The user rejected redundant baseline placement and clarified that baseline should be
+  in root.
+- Agent work: `context conduct` was changed from a baseline topic into a production/domain extension
+  topic that depends on root baseline conduct. The context topics feature spec and tests were updated
+  to enforce this consumption chain.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: `context conduct` must not duplicate the baseline. It extends root baseline conduct for
+  production work and domain-specific behavior such as coding.
+- Open questions: None.
