@@ -59,6 +59,7 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('brainstorm'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('grill'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('conduct'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('ordinary Q&A'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Documentation Maintenance'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/README.md'));
@@ -105,6 +106,21 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/features/<feature-slug>.md'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/features/README.md'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Semantic Use Case Shape'));
+  });
+
+  it('prints the conduct topic', async () => {
+    const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+    await expect(run(['context', 'conduct'], '/workspace')).resolves.toBe(0);
+
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Baseline Conduct'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Prefer the existing path'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('simplest sufficient explanation or solution'),
+    );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Calibrate confidence'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Extension Boundary'));
   });
 
   it('rejects unknown context topics', async () => {

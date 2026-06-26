@@ -20,3 +20,6 @@ project state exists.
 - [0005: Feature Topic](0005-feature-docs-topic.md): Defines the `feature` topic for feature
   lifecycle design, authoritative feature production materials, feature specs, and semantic use
   cases.
+- [0006: Agent Behavior Guidelines Topic](0006-agent-behavior-guidelines-topic.md): Defines the
+  `conduct` topic baseline for agent behavior guidelines and tracks future domain-specific behavior
+  extensions.

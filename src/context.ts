@@ -213,7 +213,42 @@ When a feature changes, update the feature spec to the new authoritative state. 
 `,
 };
 
-const topics = [brainstormTopic, grillTopic, featureTopic] as const;
+const conductTopic: ContextTopic = {
+  name: 'conduct',
+  summary: 'Guide baseline agent behavior before domain-specific extensions are needed.',
+  body: `# harnessize context: conduct
+
+Use this topic when the agent needs baseline behavior guidance that applies across conversation, design, coding, testing, documentation, research, or release work.
+
+Do not use this topic as a replacement for more specific topics. Load domain-specific guidance later only when the current work needs it.
+
+## Purpose
+
+Keep agent work useful, restrained, verifiable, and easy for the user to follow.
+
+## Baseline Conduct
+
+- Understand before acting: inspect available context before broad changes or confident claims.
+- Prefer the existing path: reuse repository patterns, local helpers, platform features, and already-available dependencies before adding new machinery.
+- Prefer the simplest sufficient explanation or solution: do not choose a more complex model, architecture, process, or rule when a simpler one handles the evidence and requirements.
+- Calibrate confidence: distinguish observed facts, inferences, assumptions, and uncertainty when the difference matters.
+- Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose changes that are easy to inspect or undo when practical.
+- Prefer useful small steps: keep changes, questions, and user-facing messages focused.
+- Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
+- Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete reason.
+- Verify before closing: run relevant checks or clearly report what could not be verified.
+- Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's language context; compress filler, not necessary technical content.
+- Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely, material harm.
+
+## Extension Boundary
+
+This baseline is domain-neutral. Add or load domain conduct extensions only when the work needs sharper guidance for a specific area such as coding, testing, design, documentation, research, or release work.
+
+Do not copy behavior systems wholesale into harnessize. Absorb useful ideas into compact rules that match this project and the user's context.
+`,
+};
+
+const topics = [brainstormTopic, grillTopic, featureTopic, conductTopic] as const;
 
 export function listContextTopics(): ContextTopicSummary[] {
   return topics.map((topic) => ({
@@ -269,6 +304,7 @@ export function formatRootContext(): string {
     '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea and the discussion is likely to affect project direction, production work, or durable knowledge.',
     '- Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.',
     '- Use `feature` when maintaining feature-level production materials such as feature specs, semantic use cases, artifact references, or authoritative feature state.',
+    '- Use `conduct` when the agent needs baseline behavior guidance across work types before any domain-specific extension is needed.',
     '- If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the work becomes decision-bearing.',
     '- Switch to `grill` only after a concrete proposal exists or the user asks for critique.',
     '- Do not use `grill` for vague questions. Pressure testing needs an object to test.',

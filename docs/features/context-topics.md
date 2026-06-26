@@ -29,6 +29,8 @@ Goals:
   `brainstorm`.
 - [Decision 0005](../decisions/0005-feature-docs-topic.md): `feature` topic and feature production
   material governance.
+- [Decision 0006](../decisions/0006-agent-behavior-guidelines-topic.md): `conduct` topic baseline
+  agent behavior guidelines.
 - Runtime implementation: `src/context.ts`
 - CLI behavior tests: `test/cli.test.ts`
 - Repository agent handoff: `AGENTS.md`
@@ -39,8 +41,8 @@ Goals:
   harnessing entrypoint.
 - As a repository user, I can ask my agent to run `npx harnessize@latest context` and receive root
   workflow guidance without topic-specific noise.
-- As an agent, I can choose `brainstorm`, `grill`, or `feature` based on user intent and artifact
-  maturity.
+- As an agent, I can choose `brainstorm`, `grill`, `feature`, or `conduct` based on user intent and
+  artifact maturity.
 - As an agent, I can maintain durable decision records and authoritative feature materials without
   overloading the user with long visible replies.
 - As a future maintainer, I can start from `AGENTS.md`, reach `docs/README.md`, and then navigate to
@@ -55,6 +57,7 @@ npx harnessize@latest context
 npx harnessize@latest context brainstorm
 npx harnessize@latest context grill
 npx harnessize@latest context feature
+npx harnessize@latest context conduct
 ```
 
 The root context provides general operating rules, documentation maintenance rules, topic routing,
@@ -73,6 +76,8 @@ the current user intent needs them.
   approach.
 - `feature` is for maintaining feature-level production materials, including feature specs,
   semantic use cases, artifact references, and authoritative feature state.
+- `conduct` is for baseline agent behavior guidelines across work types. The first implementation
+  is baseline-only; domain-specific behavior extensions can be added later.
 - `AGENTS.md` remains thin. It points agents to root context and the repository documentation index,
   not to a hardcoded list of focused topics.
 - Repository documentation indexes are materialized in `docs/README.md` and per-domain index files.
@@ -100,6 +105,12 @@ the current user intent needs them.
     defined or changed.
   - Keep feature specs authoritative, concise, and free of task execution logs.
   - Maintain `docs/features/README.md` whenever feature specs change.
+- Conduct topic:
+  - Provide a compact baseline behavior contract for agents.
+  - Cover cross-domain conduct such as context inspection, reuse, simplicity, confidence
+    calibration, reversibility, focused steps, verification, and low cognitive load communication.
+  - Leave coding, testing, design, documentation, research, and release-specific behavior
+    extensions for later focused additions.
 
 ## Semantic Use Cases
 
@@ -118,6 +129,10 @@ the current user intent needs them.
 - Given work defines or changes feature-level production material
   When the agent reads `context feature`
   Then the agent creates or updates the feature spec and updates the feature index.
+
+- Given an agent needs cross-domain behavior guidance before domain-specific conduct exists
+  When the agent reads `context conduct`
+  Then the agent follows the baseline conduct rules without loading nonexistent domain extensions.
 
 - Given documentation is added, moved, renamed, or materially changed
   When the agent completes the change

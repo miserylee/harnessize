@@ -7,7 +7,7 @@ execution logs, or todos.
 ## Feature Specs
 
 - [Context Topics](context-topics.md): Defines the progressive context topic system, including root
-  context routing and the current `brainstorm`, `grill`, and `feature` topics.
+  context routing and the current `brainstorm`, `grill`, `feature`, and `conduct` topics.
 
 ## Maintenance Rules
 
