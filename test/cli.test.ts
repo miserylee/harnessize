@@ -61,6 +61,7 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('ordinary Q&A'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Documentation Maintenance'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/README.md'));
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Indexes MUST include concise summaries'),
     );
@@ -100,7 +101,9 @@ describe('run', () => {
     await expect(run(['context', 'feature'], '/workspace')).resolves.toBe(0);
 
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: feature'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('MUST-maintain obligation'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/features/<feature-slug>.md'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/features/README.md'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Semantic Use Case Shape'));
   });
 

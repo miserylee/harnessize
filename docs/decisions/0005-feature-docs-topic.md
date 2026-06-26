@@ -50,6 +50,10 @@ or step-by-step work logs.
 Agents may use feature specs plus repository exploration to determine actual implementation state and
 remaining work.
 
+Entering `feature` creates a MUST-maintain obligation when the work defines, changes, or relies on
+feature-level production material. If no feature spec exists for the feature, the agent should create
+one before claiming the feature state is captured, or explicitly state why writing is blocked.
+
 Feature specs should use one concise document per feature by default:
 
 ```text
@@ -61,6 +65,9 @@ inside the feature spec rather than raw artifact content or a separate artifact 
 
 The feature topic owns feature-specific material layout. Root context provides global index and
 retrieval-chain maintenance guidance, not every topic's storage shape.
+
+The feature domain should maintain an index at `docs/features/README.md` and update it when feature
+specs are added, moved, renamed, removed, or materially changed.
 
 ## Discussion Record
 
@@ -148,3 +155,20 @@ retrieval-chain maintenance guidance, not every topic's storage shape.
 - Open questions:
   - What fixed template should semantic use cases follow?
   - What other feature lifecycle artifacts should the topic explicitly manage beyond feature specs?
+
+### Turn 7 - Dogfood feature spec maintenance - 2026-06-27 02:42 +08:00
+
+- User signal: The user reported that `feature-spec` had not been dogfooded and that the current
+  trigger mechanism did not correctly guide agents to persist feature documentation.
+- Agent work: The feature topic guidance was tightened with a MUST-maintain obligation, the feature
+  docs index was added, and `docs/features/context-topics.md` was created as the first dogfooded
+  feature spec.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/README.md`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0005-feature-docs-topic.md`
+- Decisions: Entering `feature` requires creating or updating the relevant feature spec when the
+  work changes feature-level production material, and the feature index must stay current.
+- Open questions: None.

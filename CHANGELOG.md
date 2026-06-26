@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 - Add `harnessize context feature` for feature lifecycle design and authoritative feature
   production materials.
+- Tighten `feature` guidance so feature-level changes create or update feature specs and the feature
+  index.
 - Add `harnessize context grill` for pressure-testing concrete plans before execution.
 - Make root `harnessize context` output agent-facing workflow guidelines instead of only a topic
   list.

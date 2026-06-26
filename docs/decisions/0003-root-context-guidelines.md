@@ -67,6 +67,9 @@ routing, and traceable retrieval chains from `AGENTS.md` into the relevant docum
 Those index files must be updated when documentation is added, moved, renamed, or materially
 changed.
 
+When a repository has docs, a root documentation index such as `docs/README.md` should be the
+materialized entrypoint from `AGENTS.md` into documentation domains.
+
 Root context should not prescribe every topic-specific storage layout. Each topic should manage its
 own document shapes, while root context provides cross-topic maintenance rules.
 
@@ -109,6 +112,86 @@ own document shapes, while root context provides cross-topic maintenance rules.
   - `src/context.ts`
 - Decisions: Root context must tell agents to create and update index files in the repository when
   docs are maintained. It should not contain all indexes itself.
+- Open questions: None.
+
+### Turn 4 - Dogfood documentation indexes - 2026-06-27 02:42 +08:00
+
+- User signal: The user reported that overall documentation index completeness needed to be checked
+  and missing indexes should be filled.
+- Agent work: Repository docs were audited. The repository had decision records but no root docs
+  index, decision index, feature domain, or feature index, so materialized indexes were added and
+  `AGENTS.md` was linked to the docs entrypoint.
+- Sources:
+  - `AGENTS.md`
+  - `docs/README.md`
+  - `docs/decisions/README.md`
+  - `docs/features/README.md`
+  - `src/context.ts`
+- Decisions: Use `docs/README.md` as the repository documentation entrypoint and keep domain indexes
+  updated when docs change.
+- Open questions: None.
+
+### Turn 5 - Strengthen AGENTS docs handoff - 2026-06-27 02:49 +08:00
+
+- User signal: The user pointed out that `AGENTS.md` did not clearly guide agents into the docs
+  index.
+- Agent work: The repository handoff was made more explicit by adding a `Start Here` section that
+  points first to `docs/README.md`, then to root context for workflow guidance.
+- Sources:
+  - `AGENTS.md`
+  - `docs/README.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: `AGENTS.md` should make the local docs index an obvious first-class entrypoint instead
+  of burying it after root context.
+- Open questions: How the future `init` implementation should merge this docs-index handoff into
+  existing user repositories.
+
+### Turn 6 - Audit full index chain - 2026-06-27 02:50 +08:00
+
+- User signal: The user asked whether the current repository index chain was complete.
+- Agent work: The chain was checked from `AGENTS.md` to `docs/README.md`, domain indexes, and
+  concrete docs. Local Markdown links were mechanically checked. Decision and feature docs were
+  fully indexed, but top-level project docs were not reachable from `docs/README.md`, so project
+  reference links were added.
+- Sources:
+  - `AGENTS.md`
+  - `docs/README.md`
+  - `docs/decisions/README.md`
+  - `docs/features/README.md`
+  - `README.md`
+  - `CHANGELOG.md`
+  - `CONTRIBUTING.md`
+- Decisions: Treat `docs/README.md` as the complete repository documentation entrypoint, including
+  project-level references outside `docs/`.
+- Open questions: None.
+
+### Turn 7 - Keep docs index focused - 2026-06-27 02:52 +08:00
+
+- User signal: The user questioned whether project references such as `README.md`, `CHANGELOG.md`,
+  and `CONTRIBUTING.md` needed to be included in the docs index.
+- Agent work: The index scope was narrowed back to durable documentation domains and production
+  materials. The broad project reference section was removed from `docs/README.md`.
+- Sources:
+  - `docs/README.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: `docs/README.md` should index repository knowledge domains such as decisions and
+  feature materials, not every conventional top-level project file.
+- Open questions: None.
+
+### Turn 8 - Avoid init-specific index guardrails - 2026-06-27 03:00 +08:00
+
+- User signal: The user clarified that this does not need to be written as an init rule. It is
+  enough that init has no default behavior for creating index files.
+- Agent work: Init-specific negative wording was removed from root context, init decision material,
+  and tests. The remaining root guidance stays positive: agents create and maintain indexes
+  progressively when durable documentation domains exist.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/decisions/0001-thin-agent-facing-harness.md`
+  - `docs/decisions/0003-root-context-guidelines.md`
+- Decisions: Do not encode documentation indexes as an init concern. Root context should guide
+  progressive index maintenance only when documentation domains exist.
 - Open questions: None.
 
 ## Non-Goals

@@ -166,9 +166,12 @@ Keep feature-level production materials complete, current, reviewable, and usefu
 ## Operating Rules
 
 - Treat feature materials as authoritative sources for the current feature state.
+- Entering \`feature\` creates a MUST-maintain obligation when the work defines, changes, or relies on feature-level production material.
+- If no feature spec exists for the feature, create one at \`docs/features/<feature-slug>.md\` before claiming the feature state is captured, or explicitly state why writing is blocked.
 - Keep feature specs concise enough to stay maintainable.
 - Keep decision process and change reasoning in \`brainstorm\` records; cite them from feature materials when relevant.
 - Update feature materials when product behavior, user stories, interactions, semantic use cases, artifact references, or implementation direction materially change.
+- Update \`docs/features/README.md\` when feature specs are added, moved, renamed, removed, or materially changed.
 - Use repository exploration plus feature materials to understand actual implementation state.
 - Preserve root documentation rules: indexes MUST include summaries and MUST be updated when docs change.
 
@@ -251,6 +254,8 @@ export function formatRootContext(): string {
     '',
     '- Treat this root context as read-only guidance, not as the repository documentation index.',
     '- Maintain materialized index files inside the repository when documentation domains exist.',
+    '- Create or update indexes progressively as agent work creates or changes durable documentation domains.',
+    '- When a repository has docs, prefer a root documentation index such as `docs/README.md`.',
     '- Indexes MUST include concise summaries that help agents choose what to read.',
     '- Indexes MUST be updated when docs are added, moved, renamed, or materially changed.',
     '- Keep retrieval chains traceable from AGENTS.md to the relevant documentation domain.',
