@@ -1,0 +1,82 @@
+name: Publish
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate release tag
+        if: github.event_name == 'release'
+        shell: bash
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          actual="${{ github.event.release.tag_name }}"
+
+          if [ "$actual" != "$expected" ]; then
+            echo "Release tag $actual does not match package version $expected."
+            exit 1
+          fi
+
+      - name: Reject placeholder repository metadata
+        shell: bash
+        run: |
+          repo_url="$(node -p "require('./package.json').repository.url")"
+
+          if [[ "$repo_url" == *"YOUR_GITHUB_OWNER"* ]]; then
+            echo "Update package.json repository, bugs, and homepage URLs before publishing."
+            exit 1
+          fi
+
+      - name: Validate package version is unpublished
+        shell: bash
+        run: |
+          package_name="$(node -p "require('./package.json').name")"
+          package_version="$(node -p "require('./package.json').version")"
+
+          if npm view "$package_name@$package_version" version >/dev/null 2>&1; then
+            echo "$package_name@$package_version already exists on npm."
+            exit 1
+          fi
+
+      - name: Show package contents
+        run: npm pack --dry-run
+
+      - name: Publish package
+        run: npm publish --access public
