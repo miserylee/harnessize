@@ -71,6 +71,8 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('# harnessize context: brainstorm'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('MUST-record obligation'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('3-6 short lines'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('material research findings'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Record Shape'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Sources: <URLs'));

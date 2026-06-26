@@ -2,18 +2,13 @@
 
 This repository uses harnessize for thin, progressive agent guidance.
 
-For analysis, research, discussion, clarification, or ideation work, use:
+For repository workflow guidance, use the root context:
 
 ```sh
-npx harnessize@latest context brainstorm
+npx harnessize@latest context
 ```
 
-For pressure-testing a concrete plan, design, architecture, PRD, or implementation approach before
-execution, use:
-
-```sh
-npx harnessize@latest context grill
-```
+Follow the root context to choose any focused topic supported by the current harnessize version.
 
 Keep repository changes minimal and preserve user work. Before broad edits, inspect the existing
 code and docs, then ask only for decisions that cannot be safely inferred.

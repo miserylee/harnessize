@@ -30,15 +30,19 @@ Reduce the user's cognitive load while moving ambiguous work toward clear decisi
 ## Operating Rules
 
 - Keep responses concise, rigorous, and low-volume.
+- Default to 3-6 short lines plus the localized template unless the user asks for more detail.
 - Focus each turn on one key point or one tightly scoped decision area.
 - Do reasonable background work before asking the user to decide.
 - Ask only for information that cannot be safely inferred or discovered.
 - Keep each human decision small enough to answer quickly.
+- Move supporting detail into the durable record when it matters later instead of overloading the visible reply.
 - If the user briefly interrupts with unrelated work, handle it and return to the brainstorm thread unless they clearly exit or redirect.
 
 ## Recording Rules
 
-- Maintain a durable record of the discussion flow: compact turn-level summaries, user intent and constraints, agent research and reasoning, sources, decisions, material research findings, assumptions, open questions, rejected alternatives, and follow-up items.
+- Entering \`brainstorm\` creates a MUST-record obligation.
+- Maintain a durable record of the discussion flow while the topic is active: compact turn-level summaries, user intent and constraints, agent research and reasoning, sources, decisions, material research findings, assumptions, open questions, rejected alternatives, and follow-up items.
+- If no durable record location exists yet, create or choose one before continuing the brainstorm, or explicitly tell the user that recording is blocked.
 - Record research findings when they influence topic selection, product direction, implementation strategy, risk assessment, or a later decision.
 - Preserve information sources. For web research, include the title or source name and URL. For repository research, include the file path. For knowledge-base or tool research, include the retrievable resource identifier when available.
 - Include enough source or context information for a future agent to understand why the finding mattered.

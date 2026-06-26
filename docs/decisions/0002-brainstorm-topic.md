@@ -14,6 +14,10 @@ toward clear decisions.
 
 The `brainstorm` topic should optimize for concise, rigorous, low-volume interaction.
 
+Default user-facing replies in `brainstorm` should be short enough to scan quickly. Prefer 3-6 short
+lines plus the localized template. Do not provide broad rationale, multi-part roadmaps, or long
+explanations unless the user asks for them.
+
 The topic is exposed through:
 
 ```sh
@@ -30,10 +34,11 @@ retrieving relevant knowledge-base context when available.
 The agent should ask the user only for information that cannot be safely inferred or discovered, and
 should keep the decision burden low.
 
-The agent should maintain a durable record of the discussion flow. The durable record should capture
-turn-level summaries, user intent and constraints, agent research and reasoning, sources, decisions,
-material research findings, assumptions, open questions, rejected alternatives, and follow-up items
-rather than copying the full conversation.
+Entering `brainstorm` creates a MUST-record obligation. The agent must maintain a durable record of
+the discussion flow while the topic is active. The durable record should capture turn-level
+summaries, user intent and constraints, agent research and reasoning, sources, decisions, material
+research findings, assumptions, open questions, rejected alternatives, and follow-up items rather
+than copying the full conversation.
 
 Material research findings are recordable when they influence topic selection, product direction,
 implementation strategy, risk assessment, or a later decision. The record should include enough
@@ -71,6 +76,10 @@ A `brainstorm` response should usually:
 3. Ask for the next human decision only when needed.
 4. Record the key turn summary, settled decisions, material research findings, rejected alternatives,
    and important open questions with date and time.
+5. Keep the visible answer small; move supporting detail into the record when it matters later.
+
+If no durable record location exists yet, the agent should create or choose one before continuing
+the brainstorm, or explicitly tell the user that recording is blocked.
 
 The agent should avoid:
 
@@ -80,6 +89,8 @@ The agent should avoid:
 4. Recording raw chat as durable project knowledge.
 5. Waiting until the end of a long discussion to record research findings that are already shaping
    decisions.
+6. Sending long answers that make the user work to find the key point.
+7. Continuing in `brainstorm` without a known place to record.
 
 ## Response Template
 
@@ -141,3 +152,42 @@ and next parts.
 Where should active brainstorm notes live before future knowledge-base topics are designed?
 
 What threshold should trigger automatic distillation when the user exits or redirects the topic?
+
+## Discussion Record
+
+### Turn 1 - Fix brainstorm recording model - 2026-06-27 01:24 +08:00
+
+- User signal: The user clarified that brainstorm records must keep sources, include key discussion
+  turns, and preserve decision logic rather than only final conclusions.
+- Agent work: The record model was changed to sourced turn-level summaries with user signal, agent
+  work, sources, decisions, and open questions.
+- Sources:
+  - `docs/decisions/0002-brainstorm-topic.md`
+  - `src/context.ts`
+- Decisions: `brainstorm` records are compact discussion logs, not just conclusion notes.
+- Open questions: Where active brainstorm notes should live before a future knowledge-base topic.
+
+### Turn 2 - Expose execution defects - 2026-06-27 01:35 +08:00
+
+- User signal: The user pointed out three defects: the latest discussion was not recorded, generated
+  `AGENTS.md` must point only to root context, and brainstorm answers were too verbose.
+- Agent work: The guidance was tightened so brainstorm responses stay brief, and the init discussion
+  was backfilled into `0001`.
+- Sources:
+  - `docs/decisions/0001-thin-agent-facing-harness.md`
+  - `docs/decisions/0002-brainstorm-topic.md`
+- Decisions: Brainstorm visible replies should default to 3-6 short lines plus template, with
+  durable detail stored in records when needed.
+- Open questions: None.
+
+### Turn 3 - Make recording mandatory - 2026-06-27 01:44 +08:00
+
+- User signal: The user clarified that entering `brainstorm` should mean recording is mandatory.
+- Agent work: The brainstorm guidance was tightened from conditional recording to a MUST-record
+  obligation whenever the topic is active.
+- Sources:
+  - `docs/decisions/0002-brainstorm-topic.md`
+  - `src/context.ts`
+- Decisions: `brainstorm` cannot continue without a known durable record location; if recording is
+  blocked, the agent must say so.
+- Open questions: None.
