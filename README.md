@@ -32,10 +32,18 @@ target repository.
 ```sh
 npx harnessize@latest context
 npx harnessize@latest context brainstorm
+npx harnessize@latest context grill
 ```
 
+`context` prints the root agent-facing guidelines for using harnessize as a soft workflow
+orchestrator. Focused topics add deeper guidance only when needed.
+
 `brainstorm` is the first dogfooded topic. It guides analysis, research, discussion, clarification,
-and ideation work while keeping user-facing responses concise and recording durable decisions.
+and ideation work while keeping user-facing responses concise and recording sourced turn-level
+discussion summaries.
+
+`grill` pressure-tests a concrete plan, design, architecture, PRD, or implementation approach before
+execution.
 
 ## Development
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.3.0
+
+- Add `harnessize context grill` for pressure-testing concrete plans before execution.
+- Make root `harnessize context` output agent-facing workflow guidelines instead of only a topic
+  list.
+- Clarify that `brainstorm` should keep sourced turn-level discussion summaries, not only final
+  decisions.
+
 ## 0.2.0
 
 - Add the first dogfooded context topic: `brainstorm`.

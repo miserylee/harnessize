@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 
 import {
   formatContextTopic,
-  formatContextTopicList,
+  formatRootContext,
   getContextTopic,
   UnknownContextTopicError,
 } from './context.js';
@@ -140,7 +140,7 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
 
   if (options.command === 'context') {
     if (!options.contextTopic) {
-      process.stdout.write(`${formatContextTopicList()}\n`);
+      process.stdout.write(`${formatRootContext()}\n`);
       return 0;
     }
 
@@ -150,7 +150,7 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
     } catch (error) {
       if (error instanceof UnknownContextTopicError) {
         process.stderr.write(`harnessize: ${error.message}\n`);
-        process.stderr.write(`${formatContextTopicList()}\n`);
+        process.stderr.write(`${formatRootContext()}\n`);
         return 1;
       }
 

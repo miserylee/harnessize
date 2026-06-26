@@ -38,13 +38,30 @@ Reduce the user's cognitive load while moving ambiguous work toward clear decisi
 
 ## Recording Rules
 
-- Maintain a durable record of decisions, assumptions, open questions, and follow-up items.
+- Maintain a durable record of the discussion flow: compact turn-level summaries, user intent and constraints, agent research and reasoning, sources, decisions, material research findings, assumptions, open questions, rejected alternatives, and follow-up items.
+- Record research findings when they influence topic selection, product direction, implementation strategy, risk assessment, or a later decision.
+- Preserve information sources. For web research, include the title or source name and URL. For repository research, include the file path. For knowledge-base or tool research, include the retrievable resource identifier when available.
+- Include enough source or context information for a future agent to understand why the finding mattered.
 - Do not copy the raw chat transcript into project knowledge.
 - Include explicit date and time in records.
 - Use concise numeric timezone offsets, for example: 2026-06-27 00:12 +08:00.
+- Records are not only final conclusions. Preserve compact per-turn summaries of important question-and-answer flow so future agents can understand how decisions were reached.
 - Split long-running brainstorm records after 50 discussion turns.
 - When splitting, preserve chronology and link the previous and next files.
 - When exiting the topic, decide whether durable conclusions should be promoted into a long-lived document or knowledge base.
+- If an investigation materially changes the discussion, update the working record near that point instead of waiting until topic exit.
+
+## Record Shape
+
+\`\`\`text
+## Turn <n> - <focus> - <YYYY-MM-DD HH:mm +08:00>
+
+- User signal: <key user intent, constraint, correction, or answer>
+- Agent work: <important investigation, reasoning, or synthesis>
+- Sources: <URLs, file paths, resource ids, or "none">
+- Decisions: <settled decisions, if any>
+- Open questions: <remaining uncertainty, if any>
+\`\`\`
 
 ## Response Template
 
@@ -70,7 +87,66 @@ When the brainstorm thread ends, summarize only the durable conclusions. If usef
 `,
 };
 
-const topics = [brainstormTopic] as const;
+const grillTopic: ContextTopic = {
+  name: 'grill',
+  summary: 'Pressure-test a concrete plan, design, architecture, PRD, or implementation approach.',
+  body: `# harnessize context: grill
+
+Use this topic when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.
+
+Do not use this topic just because the user asks a vague question. Grill needs an object to test. If the idea is still ambiguous, use \`brainstorm\` first.
+
+## Purpose
+
+Find weak assumptions, missing constraints, unclear tradeoffs, and risky execution gaps before work starts.
+
+## Operating Rules
+
+- Pressure-test the plan without turning the interaction into a hostile interrogation.
+- Keep each turn focused on one risk area or one decision area.
+- Inspect available repository context before asking the user for information.
+- Ask only questions that materially change the plan, scope, risk, or implementation path.
+- Prefer concrete objections over abstract skepticism.
+- When possible, provide a recommended answer or default path so the user can respond quickly.
+- Stop grilling when the remaining questions no longer change the likely plan.
+
+## What To Test
+
+- Goal: what outcome is this plan supposed to produce?
+- User value: who benefits, and what changes for them?
+- Scope: what is explicitly in and out?
+- Constraints: what technical, product, time, compatibility, or release constraints matter?
+- Risks: what could fail, regress, confuse users, or increase maintenance cost?
+- Alternatives: what simpler or safer approach was rejected, and why?
+- Verification: how will success and correctness be checked?
+- Rollback: what happens if the plan is wrong?
+
+## Response Template
+
+Localize labels and prose to the user's current language context.
+
+Default shape:
+
+\`\`\`text
+Focus: <one plan area being pressure-tested>
+Risk: <the concrete risk, gap, or assumption>
+Recommended path: <the agent's current best default, if clear>
+Need from you: <one low-burden decision or clarification>
+\`\`\`
+
+Use the record field only when there was an actual write, a record location changed, content was promoted into long-lived knowledge, or recording failed:
+
+\`\`\`text
+Record: <only when relevant, include location and timestamp when applicable>
+\`\`\`
+
+## Exit Behavior
+
+When the pressure test ends, summarize the strongest surviving plan, the main risks accepted, and the verification or rollback expectations. Record durable decisions when the discussion creates project knowledge.
+`,
+};
+
+const topics = [brainstormTopic, grillTopic] as const;
 
 export function listContextTopics(): ContextTopicSummary[] {
   return topics.map((topic) => ({
@@ -89,14 +165,38 @@ export function getContextTopic(topicName: string): ContextTopic {
   return topic;
 }
 
-export function formatContextTopicList(): string {
+export function formatRootContext(): string {
   const lines = [
-    'harnessize context',
+    '# harnessize context',
+    '',
+    'Harnessize provides agent-facing workflow guidance through progressive context topics.',
+    '',
+    'Use this command as the root guideline for soft-orchestrating agent work. Load focused topics only when the current user intent needs them.',
+    '',
+    '## Operating Rules',
+    '',
+    '- Keep repository changes minimal and reversible.',
+    '- Inspect the repository before making broad edits.',
+    '- Preserve user changes and existing project conventions.',
+    '- Ask the user only for decisions that cannot be safely inferred or discovered.',
+    '- Prefer focused topic context over large, all-purpose instruction dumps.',
+    '- Record durable decisions and material findings when the work creates project knowledge.',
+    '- Run relevant verification before reporting implementation work as complete.',
+    '',
+    '## Topic Routing',
+    '',
+    'Choose the smallest topic that matches the user intent. If no topic matches, continue with normal repository-aware behavior and avoid inventing unsupported harnessize rules.',
+    '',
+    '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea.',
+    '- Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.',
+    '- If unsure, start with `brainstorm`. Switch to `grill` only after a concrete proposal exists or the user asks for critique.',
+    '- Do not use `grill` for vague questions. Pressure testing needs an object to test.',
     '',
     'Available topics:',
     ...listContextTopics().map((topic) => `- ${topic.name}: ${topic.summary}`),
     '',
-    'Usage:',
+    '## Usage',
+    '',
     '  npx harnessize@latest context <topic>',
   ];
 

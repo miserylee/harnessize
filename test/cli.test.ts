@@ -48,12 +48,19 @@ describe('run', () => {
     vi.restoreAllMocks();
   });
 
-  it('lists context topics', async () => {
+  it('prints root context guidelines', async () => {
     const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
 
     await expect(run(['context'], '/workspace')).resolves.toBe(0);
 
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('agent-facing workflow guidance'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('soft-orchestrating agent work'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('brainstorm'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('grill'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('If unsure, start with `brainstorm`'),
+    );
   });
 
   it('prints the brainstorm topic', async () => {
@@ -64,7 +71,21 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('# harnessize context: brainstorm'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('material research findings'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Record Shape'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Sources: <URLs'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('50 discussion turns'));
+  });
+
+  it('prints the grill topic', async () => {
+    const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+    await expect(run(['context', 'grill'], '/workspace')).resolves.toBe(0);
+
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: grill'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('concrete plan'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Pressure-test the plan'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Recommended path'));
   });
 
   it('rejects unknown context topics', async () => {
