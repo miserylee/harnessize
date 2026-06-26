@@ -33,6 +33,7 @@ target repository.
 npx harnessize@latest context
 npx harnessize@latest context brainstorm
 npx harnessize@latest context grill
+npx harnessize@latest context feature
 ```
 
 `context` prints the root agent-facing guidelines for using harnessize as a soft workflow
@@ -44,6 +45,9 @@ discussion summaries.
 
 `grill` pressure-tests a concrete plan, design, architecture, PRD, or implementation approach before
 execution.
+
+`feature` guides feature lifecycle design and authoritative feature production materials, including
+feature specs and semantic use cases.
 
 ## Development
 

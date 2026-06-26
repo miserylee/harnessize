@@ -150,7 +150,67 @@ When the pressure test ends, summarize the strongest surviving plan, the main ri
 `,
 };
 
-const topics = [brainstormTopic, grillTopic] as const;
+const featureTopic: ContextTopic = {
+  name: 'feature',
+  summary: 'Guide feature lifecycle design and authoritative feature production materials.',
+  body: `# harnessize context: feature
+
+Use this topic when work needs feature-level production materials: feature specs, semantic use cases, product/interaction references, prototype references, artifact references, or updates to authoritative feature state.
+
+Do not use this topic as a task plan. Feature materials describe the current authoritative feature understanding; task planning and execution records belong elsewhere.
+
+## Purpose
+
+Keep feature-level production materials complete, current, reviewable, and useful as implementation and regression references for humans and agents.
+
+## Operating Rules
+
+- Treat feature materials as authoritative sources for the current feature state.
+- Keep feature specs concise enough to stay maintainable.
+- Keep decision process and change reasoning in \`brainstorm\` records; cite them from feature materials when relevant.
+- Update feature materials when product behavior, user stories, interactions, semantic use cases, artifact references, or implementation direction materially change.
+- Use repository exploration plus feature materials to understand actual implementation state.
+- Preserve root documentation rules: indexes MUST include summaries and MUST be updated when docs change.
+
+## Feature Spec
+
+Use one concise document per feature by default:
+
+\`\`\`text
+docs/features/<feature-slug>.md
+\`\`\`
+
+A feature spec should usually include:
+
+- Background and goals.
+- Links to relevant research and discussion records.
+- User stories.
+- Product design and interaction design.
+- Prototype or artifact references.
+- Feature design and implementation direction.
+- Functional breakdown as an authoritative implementation reference.
+- Semantic use cases for human review and agent self-check regression.
+- Related production artifact references.
+
+## Semantic Use Case Shape
+
+Keep semantic use cases fixed and concise:
+
+\`\`\`text
+- Given <context/state>
+  When <user/system action>
+  Then <observable expectation>
+\`\`\`
+
+## Boundaries
+
+Feature specs should not contain task breakdowns, execution logs, todos, or step-by-step work records.
+
+When a feature changes, update the feature spec to the new authoritative state. Keep the change decision trail in \`brainstorm\` and link to it when useful.
+`,
+};
+
+const topics = [brainstormTopic, grillTopic, featureTopic] as const;
 
 export function listContextTopics(): ContextTopicSummary[] {
   return topics.map((topic) => ({
@@ -187,13 +247,25 @@ export function formatRootContext(): string {
     '- Record durable decisions and material findings when the work creates project knowledge.',
     '- Run relevant verification before reporting implementation work as complete.',
     '',
+    '## Documentation Maintenance',
+    '',
+    '- Treat this root context as read-only guidance, not as the repository documentation index.',
+    '- Maintain materialized index files inside the repository when documentation domains exist.',
+    '- Indexes MUST include concise summaries that help agents choose what to read.',
+    '- Indexes MUST be updated when docs are added, moved, renamed, or materially changed.',
+    '- Keep retrieval chains traceable from AGENTS.md to the relevant documentation domain.',
+    '- Let focused topics define their own document shapes; root context only provides cross-topic maintenance rules.',
+    '',
     '## Topic Routing',
     '',
     'Choose the smallest topic that matches the user intent. If no topic matches, continue with normal repository-aware behavior and avoid inventing unsupported harnessize rules.',
     '',
-    '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea.',
+    '- Do not enter a topic for ordinary Q&A that does not affect production work, project knowledge, or later decisions.',
+    '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea and the discussion is likely to affect project direction, production work, or durable knowledge.',
     '- Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.',
-    '- If unsure, start with `brainstorm`. Switch to `grill` only after a concrete proposal exists or the user asks for critique.',
+    '- Use `feature` when maintaining feature-level production materials such as feature specs, semantic use cases, artifact references, or authoritative feature state.',
+    '- If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the work becomes decision-bearing.',
+    '- Switch to `grill` only after a concrete proposal exists or the user asks for critique.',
     '- Do not use `grill` for vague questions. Pressure testing needs an object to test.',
     '',
     'Available topics:',

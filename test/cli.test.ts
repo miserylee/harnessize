@@ -58,9 +58,13 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('soft-orchestrating agent work'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('brainstorm'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('grill'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('ordinary Q&A'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Documentation Maintenance'));
     expect(stdout).toHaveBeenCalledWith(
-      expect.stringContaining('If unsure, start with `brainstorm`'),
+      expect.stringContaining('Indexes MUST include concise summaries'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('answer normally first'));
   });
 
   it('prints the brainstorm topic', async () => {
@@ -88,6 +92,16 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('concrete plan'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Pressure-test the plan'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Recommended path'));
+  });
+
+  it('prints the feature topic', async () => {
+    const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+    await expect(run(['context', 'feature'], '/workspace')).resolves.toBe(0);
+
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: feature'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('docs/features/<feature-slug>.md'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Semantic Use Case Shape'));
   });
 
   it('rejects unknown context topics', async () => {

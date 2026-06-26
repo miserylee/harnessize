@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## 0.3.0
 
+- Add `harnessize context feature` for feature lifecycle design and authoritative feature
+  production materials.
 - Add `harnessize context grill` for pressure-testing concrete plans before execution.
 - Make root `harnessize context` output agent-facing workflow guidelines instead of only a topic
   list.
