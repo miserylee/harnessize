@@ -4,12 +4,22 @@ import { resolve } from 'node:path';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
 
+import {
+  formatContextTopic,
+  formatContextTopicList,
+  getContextTopic,
+  UnknownContextTopicError,
+} from './context.js';
 import { createHarnessPlan, formatHarnessPlan } from './index.js';
 
 const require = createRequire(import.meta.url);
 const packageJson = require('../package.json') as { version: string };
 
+export type CliCommand = 'context' | 'init';
+
 export interface CliOptions {
+  command: CliCommand;
+  contextTopic?: string;
   dryRun: boolean;
   help: boolean;
   json: boolean;
@@ -26,6 +36,7 @@ export class CliError extends Error {
 
 export function parseArgs(args: string[], cwd = process.cwd()): CliOptions {
   const options: CliOptions = {
+    command: 'init',
     dryRun: false,
     help: false,
     json: false,
@@ -60,6 +71,25 @@ export function parseArgs(args: string[], cwd = process.cwd()): CliOptions {
     }
   }
 
+  if (positional[0] === 'context') {
+    options.command = 'context';
+
+    if (positional.length > 2) {
+      throw new CliError('Expected at most one context topic.');
+    }
+
+    if (positional[1]) {
+      options.contextTopic = positional[1];
+    }
+
+    return options;
+  }
+
+  if (positional[0] === 'init') {
+    options.command = 'init';
+    positional.shift();
+  }
+
   if (positional.length > 1) {
     throw new CliError('Expected at most one target directory.');
   }
@@ -76,6 +106,7 @@ export function helpText(): string {
 
 Usage:
   npx harnessize [target] [options]
+  npx harnessize context [topic]
 
 Options:
   --dry-run      Preview planned harnessization steps without writing files.
@@ -105,6 +136,26 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
   if (options.version) {
     process.stdout.write(`${packageJson.version}\n`);
     return 0;
+  }
+
+  if (options.command === 'context') {
+    if (!options.contextTopic) {
+      process.stdout.write(`${formatContextTopicList()}\n`);
+      return 0;
+    }
+
+    try {
+      process.stdout.write(`${formatContextTopic(getContextTopic(options.contextTopic))}\n`);
+      return 0;
+    } catch (error) {
+      if (error instanceof UnknownContextTopicError) {
+        process.stderr.write(`harnessize: ${error.message}\n`);
+        process.stderr.write(`${formatContextTopicList()}\n`);
+        return 1;
+      }
+
+      throw error;
+    }
   }
 
   const plan = createHarnessPlan({

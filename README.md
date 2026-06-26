@@ -14,6 +14,7 @@ harnessing behavior will be added next.
 
 ```sh
 npx harnessize [target] [options]
+npx harnessize context [topic]
 ```
 
 Options:
@@ -22,6 +23,19 @@ Options:
 - `--json`: print the plan as JSON.
 - `-h, --help`: show help.
 - `-v, --version`: show the package version.
+
+## Context Topics
+
+Harnessize can provide progressive, agent-facing guidance without copying large manuals into the
+target repository.
+
+```sh
+npx harnessize@latest context
+npx harnessize@latest context brainstorm
+```
+
+`brainstorm` is the first dogfooded topic. It guides analysis, research, discussion, clarification,
+and ideation work while keeping user-facing responses concise and recording durable decisions.
 
 ## Development
 
