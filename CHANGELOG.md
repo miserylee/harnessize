@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.4.0
+
+- Add `harnessize context caseset` for semantic use case set maintenance inside feature specs.
+- Add `harnessize context verify` for quality-gate evidence selection, checks, self-healing, and
+  escalation.
+- Simplify feature spec guidance into clearer information responsibilities and delegate semantic
+  use case maintenance to `caseset`.
+- Add unit-test management guidance inside the coding extension of `conduct`.
+- Add a promotional README illustration for the project identity.
+
 ## 0.3.1
 
 - Make all recommended `npx` invocations non-interactive with `npx -y harnessize@latest`.

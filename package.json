@@ -1,6 +1,6 @@
 {
   "name": "harnessize",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "CLI for preparing repositories for AI harness workflows.",
   "type": "module",
   "main": "./dist/cli.js",
@@ -17,6 +17,7 @@
   },
   "files": [
     "dist",
+    "assets",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
