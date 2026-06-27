@@ -138,7 +138,13 @@ The first domain extension is coding conduct. Use it for implementation, refacto
 work. It extends the root baseline with coding-specific behavior around repository fit, restraint,
 correctness, verification, and handoff.
 
-It should stay focused on coding conduct. Testing, design, documentation, research, and release
+Unit test management belongs inside the coding domain extension. The guidance should not demand 100%
+coverage. It should tell agents to add or update unit tests when code is low-level or heavily
+reused, stable enough for tests to protect, rich in boundary cases, tied to a reported bad case or
+regression, or changing a behavior contract. Unit tests should use the repository's existing test
+stack and should not create additional harnessize artifacts by default.
+
+It should stay focused on coding conduct. Broader design, documentation, research, and release
 behavior can become separate domain extensions when needed.
 
 ## Prompt Design Pitfall
@@ -479,4 +485,21 @@ Guideline for this topic:
   - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
 - Decisions: `context conduct` must not duplicate the baseline. It extends root baseline conduct for
   production work and domain-specific behavior such as coding.
+- Open questions: None.
+
+### Turn 21 - Add unit-test management inside coding conduct - 2026-06-27 14:11 +08:00
+
+- User signal: The user previously clarified that unit-test management should be part of the coding
+  extension in `conduct`, not a standalone topic. Continuing after `caseset` made this the right
+  companion change for `verify`.
+- Agent work: The `conduct` topic's coding extension was updated with unit-test management guidance:
+  no default 100% coverage target, add tests for reusable, low-level, boundary-rich, regression-
+  related, stable, or behavior-contract-changing code, and use the repository's existing test stack.
+- Sources:
+  - `node dist/cli.js context`
+  - `node dist/cli.js context conduct`
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/decisions/0008-next-topic-candidates.md`
+- Decisions: Keep unit-test management inside `context conduct` as coding-domain guidance.
 - Open questions: None.

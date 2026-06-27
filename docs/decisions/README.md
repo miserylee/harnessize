@@ -19,11 +19,13 @@ project state exists.
 - [0004: Grill Topic](0004-grill-topic.md): Defines the `grill` topic for pressure-testing concrete
   plans separately from early exploration and records the research that informed that shape.
 - [0005: Feature Topic](0005-feature-docs-topic.md): Defines the `feature` topic for feature
-  lifecycle design, authoritative feature production materials, feature specs, and semantic use
-  cases.
+  lifecycle design, authoritative feature production materials, feature specs, and the handoff to
+  `caseset` for semantic use case maintenance.
 - [0006: Agent Behavior Guidelines Topic](0006-agent-behavior-guidelines-topic.md): Defines the
   root baseline relationship, critical evaluation of user direction, and `conduct` domain extensions
   for agent behavior guidelines.
 - [0007: Project Development Boundaries](0007-project-development-boundaries.md): Defines where
   project development norms live and how to keep repository-local, distributed, dogfood, and
   decision-record boundaries separate.
+- [0008: Next Topic Candidates](0008-next-topic-candidates.md): Tracks `caseset` and `verify` topic
+  design and implementation, plus related unit-test conduct guidance.

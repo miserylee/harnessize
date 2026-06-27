@@ -155,7 +155,7 @@ const featureTopic: ContextTopic = {
   summary: 'Guide feature lifecycle design and authoritative feature production materials.',
   body: `# harnessize context: feature
 
-Use this topic when work needs feature-level production materials: feature specs, semantic use cases, product/interaction references, prototype references, artifact references, or updates to authoritative feature state.
+Use this topic when work needs feature-level production materials: feature specs, user intent, product/interaction references, prototype references, artifact references, or updates to authoritative feature state.
 
 Do not use this topic as a task plan. Feature materials describe the current authoritative feature understanding; task planning and execution records belong elsewhere.
 
@@ -170,7 +170,7 @@ Keep feature-level production materials complete, current, reviewable, and usefu
 - If no feature spec exists for the feature, create one at \`docs/features/<feature-slug>.md\` before claiming the feature state is captured, or explicitly state why writing is blocked.
 - Keep feature specs concise enough to stay maintainable.
 - Keep decision process and change reasoning in \`brainstorm\` records; cite them from feature materials when relevant.
-- Update feature materials when product behavior, user stories, interactions, semantic use cases, artifact references, or implementation direction materially change.
+- Update feature materials when background, user intent, product behavior, interactions, semantic use cases, artifact references, or implementation direction materially change.
 - Update \`docs/features/README.md\` when feature specs are added, moved, renamed, removed, or materially changed.
 - Use repository exploration plus feature materials to understand actual implementation state.
 - Preserve root documentation rules: indexes MUST include summaries and MUST be updated when docs change.
@@ -183,33 +183,143 @@ Use one concise document per feature by default:
 docs/features/<feature-slug>.md
 \`\`\`
 
-A feature spec should usually include:
+A feature spec should usually include these information responsibilities:
 
-- Background and goals.
-- Links to relevant research and discussion records.
-- User stories.
-- Product design and interaction design.
-- Prototype or artifact references.
-- Feature design and implementation direction.
-- Functional breakdown as an authoritative implementation reference.
-- Semantic use cases for human review and agent self-check regression.
-- Related production artifact references.
+- Background And Goals: why the feature exists, the problem it addresses, and important constraints.
+- User Intent Or User Stories: actor, intent, value, and high-level capability.
+- Product And Interaction Design: user-visible behavior, states, flows, and UX decisions.
+- Feature Design And Functional Breakdown: authoritative behavior model, technical direction, module boundaries, and capability decomposition.
+- Semantic Use Cases: concrete behavior expectations for human review and agent self-check regression.
+- References And Artifacts: research records, discussion records, prototypes, source references, release references, generated assets, or external materials.
 
-## Semantic Use Case Shape
+Sections may be merged when the feature is simple, as long as retrieval and authority stay clear.
 
-Keep semantic use cases fixed and concise:
+## Semantic Use Cases
 
-\`\`\`text
-- Given <context/state>
-  When <user/system action>
-  Then <observable expectation>
-\`\`\`
+Semantic use cases belong in the feature spec. Use \`caseset\` when creating, reviewing, expanding, or repairing the semantic use case section.
 
 ## Boundaries
 
 Feature specs should not contain task breakdowns, execution logs, todos, or step-by-step work records.
 
 When a feature changes, update the feature spec to the new authoritative state. Keep the change decision trail in \`brainstorm\` and link to it when useful.
+`,
+};
+
+const casesetTopic: ContextTopic = {
+  name: 'caseset',
+  summary: 'Guide semantic use case set maintenance inside feature specs.',
+  body: `# harnessize context: caseset
+
+Use this topic when the agent needs to create, review, expand, or repair semantic use cases inside a feature spec.
+
+Do not create a separate caseset artifact by default. Cases live in the feature spec's semantic use case section.
+
+## Purpose
+
+Make feature behavior concrete, searchable, reviewable, and useful as verification input for humans and agents.
+
+## Operating Rules
+
+- Load \`feature\` when touching the surrounding feature spec. \`caseset\` owns the use case maintenance method, not the whole feature document.
+- Design or update cases when a solution direction becomes concrete, feature behavior changes, or verification exposes a missing or incorrect expectation.
+- Treat existing cases as authoritative verification inputs, but not as infallible. Repair them when product facts or corrected requirements show that a case is wrong.
+- Ask for human review when cases define product authority, change expected behavior, or expose ambiguity that cannot be safely inferred.
+- Make each case detailed enough to be searchable and understandable without surrounding chat context.
+- Cover normal flows, boundary cases, invalid states, constraints, and known bad cases or regressions when they matter.
+- Group cases by scenario or risk area so detailed coverage stays navigable.
+- Keep cases focused on expected behavior. Do not duplicate broad product design prose or record verification run logs in the caseset.
+
+## Case Shape
+
+Use this shape inside the feature spec:
+
+\`\`\`text
+## Semantic Use Cases
+
+### <Scenario Or Risk Area>
+
+- Case: <detailed semantic description of the behavior, context, and intent>
+  Preconditions: <required state or setup>
+  Action: <user/system operation>
+  Assertions: <observable expectations>
+\`\`\`
+
+The \`Case\` line is not a short name. It should describe enough semantic context for later agents to retrieve and understand the expected behavior.
+
+## Boundaries
+
+- \`feature\` owns the authoritative feature document as a whole.
+- \`caseset\` owns semantic use case set shape, coverage, and repair guidance.
+- Future verification guidance may use cases as quality-gate input, but verification execution belongs outside this topic.
+
+## Response Template
+
+Localize labels and prose to the user's current language context.
+
+\`\`\`text
+Focus: <one scenario or risk area>
+Cases: <added, changed, reviewed, or repaired cases>
+Authority: <human-reviewed, inferred from feature material, or needs confirmation>
+Need from you: <only when product authority or ambiguity needs a human decision>
+\`\`\`
+`,
+};
+
+const verifyTopic: ContextTopic = {
+  name: 'verify',
+  summary: 'Guide quality-gate evidence selection, checks, self-healing, and escalation.',
+  body: `# harnessize context: verify
+
+Use this topic when the agent needs to prove that a change, implementation, document update, release step, or feature behavior is correct enough to continue or close.
+
+Do not use this topic as a generic testing handbook or a user-facing reporting ceremony. Verification is a quality gate.
+
+## Purpose
+
+Choose enough evidence for the current claim, run the right checks, self-heal failures when practical, and involve the user only when the agent cannot resolve the problem or expected behavior needs human authority.
+
+## Operating Rules
+
+- Identify the claim being verified before choosing checks.
+- Find relevant evidence sources: changed files, feature specs, semantic use cases, tests, linters, type checks, builds, release metadata, logs, or external docs when needed.
+- Treat feature semantic use cases as authoritative verification inputs, but not as infallible.
+- Use \`caseset\` to repair semantic use cases when observed facts or corrected requirements show that a case is wrong.
+- Choose verification depth based on risk, blast radius, available repository checks, and stable signal value.
+- Prefer repository-native checks such as lint, type checks, unit tests, build checks, or project-specific scripts when they are relevant.
+- If verification fails, self-heal when the fix is clear and safe, then rerun the relevant checks.
+- Escalate to the user only when the agent cannot resolve the failure, expected behavior is ambiguous, or authority needs human confirmation.
+- Close only when the quality gate passes, is intentionally narrowed, or the remaining risk is explicit.
+
+## Evidence Selection
+
+Use the smallest evidence set that can honestly support the claim:
+
+- Documentation-only changes usually need formatting, link/index checks, and consistency checks against related docs.
+- Code behavior changes usually need targeted tests plus any lint, type, build, or regression checks that protect the touched path.
+- Feature behavior changes should check relevant semantic use cases and update them when the expected behavior changes.
+- Release or package changes should check metadata, build output, package files, and release automation assumptions.
+
+## Boundaries
+
+- \`feature\` owns authoritative feature material.
+- \`caseset\` owns semantic use case maintenance.
+- \`conduct\` owns production and domain behavior guidance.
+- \`verify\` owns quality-gate execution: evidence selection, check execution, result interpretation, self-healing, and human escalation when blocked.
+
+Do not create durable verification logs by default. Keep verification output in the agent's working context unless another topic requires a documentation update.
+
+## Response Template
+
+Localize labels and prose to the user's current language context. Visible reporting is optional when the agent can self-heal and continue safely.
+
+\`\`\`text
+Claim: <what is being verified>
+Evidence: <checks, files, semantic use cases, or sources used>
+Result: <pass, fail, partial, or blocked>
+Risk: <remaining uncertainty or skipped coverage>
+Next: <only if user action or follow-up is needed>
+\`\`\`
 `,
 };
 
@@ -278,6 +388,13 @@ Correctness:
 - Update tests, fixtures, docs, or types when the behavior contract changes.
 - Scale verification to risk: focused checks for narrow edits, broader regression checks for shared behavior or user-facing workflows.
 
+Unit tests:
+
+- Do not pursue 100% coverage as a goal by default.
+- Add or update unit tests when code is low-level or heavily reused, stable enough for tests to protect, rich in boundary cases, tied to a reported bad case or regression, or changing a behavior contract.
+- Use the repository's existing test stack and patterns.
+- Do not create harnessize-specific unit test artifacts unless the project explicitly needs them.
+
 Handoff:
 
 - Summarize the implementation result in terms of behavior, not just files changed.
@@ -285,7 +402,14 @@ Handoff:
 `,
 };
 
-const topics = [brainstormTopic, grillTopic, featureTopic, conductTopic] as const;
+const topics = [
+  brainstormTopic,
+  grillTopic,
+  featureTopic,
+  casesetTopic,
+  verifyTopic,
+  conductTopic,
+] as const;
 
 export function listContextTopics(): ContextTopicSummary[] {
   return topics.map((topic) => ({
@@ -376,6 +500,8 @@ export function formatRootContext(): string {
     '- Use `brainstorm` when the user is exploring, researching, clarifying, discussing, or shaping an unclear idea and the discussion is likely to affect project direction, production work, or durable knowledge.',
     '- Use `grill` when the user already has a concrete plan, design, architecture, PRD, or implementation approach and wants it challenged before execution.',
     '- Use `feature` when maintaining feature-level production materials such as feature specs, semantic use cases, artifact references, or authoritative feature state.',
+    '- Use `caseset` when creating, reviewing, expanding, or repairing semantic use cases inside a feature spec.',
+    '- Use `verify` when the agent needs a quality gate for correctness, readiness, safety, or regression confidence.',
     '- Use `conduct` before production actions such as code changes, documentation changes, tests, design work, refactoring, review, or release work.',
     '- Combine `conduct` with another focused topic when that topic defines the material type but production or domain guidance is still needed.',
     '- If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the work becomes decision-bearing.',

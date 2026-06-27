@@ -34,6 +34,8 @@ npx -y harnessize@latest context
 npx -y harnessize@latest context brainstorm
 npx -y harnessize@latest context grill
 npx -y harnessize@latest context feature
+npx -y harnessize@latest context caseset
+npx -y harnessize@latest context verify
 npx -y harnessize@latest context conduct
 ```
 
@@ -49,6 +51,12 @@ execution.
 
 `feature` guides feature lifecycle design and authoritative feature production materials, including
 feature specs and semantic use cases.
+
+`caseset` guides semantic use case set maintenance inside feature specs so cases stay detailed,
+searchable, reviewable, and useful for later verification.
+
+`verify` guides quality-gate evidence selection, checks, self-healing, and escalation when the agent
+needs confidence that work is correct enough to continue or close.
 
 `conduct` guides agent behavior before production work or durable project changes, and includes
 domain extensions such as coding conduct for implementation, refactoring, and review work.

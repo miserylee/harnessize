@@ -46,6 +46,9 @@ Implemented topics currently include:
 npx -y harnessize@latest context brainstorm
 npx -y harnessize@latest context grill
 npx -y harnessize@latest context feature
+npx -y harnessize@latest context caseset
+npx -y harnessize@latest context verify
+npx -y harnessize@latest context conduct
 ```
 
 Root routing should distinguish intent and artifact maturity:
@@ -59,10 +62,16 @@ Root routing should distinguish intent and artifact maturity:
    implementation approach and wants it challenged before execution.
 4. Use `feature` when maintaining feature-level production materials such as feature specs, semantic
    use cases, artifact references, or authoritative feature state.
-5. If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the
+5. Use `caseset` when creating, reviewing, expanding, or repairing semantic use cases inside a
+   feature spec.
+6. Use `verify` when the agent needs a quality gate for correctness, readiness, safety, or
+   regression confidence.
+7. Use `conduct` before production actions such as code changes, documentation changes, tests,
+   design work, refactoring, review, or release work.
+8. If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the
    work becomes decision-bearing.
-6. Switch to `grill` only after a concrete proposal exists or the user asks for critique.
-7. Do not use `grill` for vague questions.
+9. Switch to `grill` only after a concrete proposal exists or the user asks for critique.
+10. Do not use `grill` for vague questions.
 
 Root context is read-only guidance. It should not itself become the repository's materialized index.
 Instead, it should instruct agents to maintain materialized index files inside the user's repository

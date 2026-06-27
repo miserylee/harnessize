@@ -27,15 +27,17 @@ npx -y harnessize@latest context feature
 The feature topic should treat feature production materials as authoritative sources, not as task
 plans.
 
-Feature specs should contain:
+Feature specs should use a concise set of information responsibilities:
 
-1. Background, goals, and references to relevant research and discussion records.
-2. User stories, product design, interaction design, and prototype references.
-3. Feature design, implementation direction, and functional breakdown used as authoritative
-   implementation reference.
-4. Semantic use cases written in a fixed, concise template for human review and agent regression
-   self-checks.
-5. Related production artifact information.
+1. Background And Goals.
+2. User Intent Or User Stories.
+3. Product And Interaction Design.
+4. Feature Design And Functional Breakdown.
+5. Semantic Use Cases.
+6. References And Artifacts.
+
+Sections may be merged when the feature is simple, as long as retrieval and authority stay clear.
+Semantic use case set maintenance is handled by the `caseset` topic.
 
 Feature specs should continue to participate in future iterations. When the product changes, the
 authoritative feature doc should be updated.
@@ -171,4 +173,19 @@ specs are added, moved, renamed, removed, or materially changed.
   - `docs/decisions/0005-feature-docs-topic.md`
 - Decisions: Entering `feature` requires creating or updating the relevant feature spec when the
   work changes feature-level production material, and the feature index must stay current.
+- Open questions: None.
+
+### Turn 8 - Simplify feature spec structure with caseset - 2026-06-27 14:04 +08:00
+
+- User signal: The user confirmed that the new `caseset` topic should be landed together with a
+  simplified `feature` spec template.
+- Agent work: The feature topic's spec guidance was simplified into six information
+  responsibilities, and semantic use case maintenance was delegated to `caseset`.
+- Sources:
+  - `docs/decisions/0008-next-topic-candidates.md`
+  - `src/context.ts`
+  - `docs/features/context-topics.md`
+- Decisions: Feature specs should use Background And Goals, User Intent Or User Stories, Product And
+  Interaction Design, Feature Design And Functional Breakdown, Semantic Use Cases, and References
+  And Artifacts as the default structure.
 - Open questions: None.

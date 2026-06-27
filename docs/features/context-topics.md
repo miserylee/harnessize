@@ -1,6 +1,6 @@
 # Context Topics Feature Spec
 
-Status: Implemented on `main` for the `0.3.1` package line.
+Status: Implemented on `main` for the post-`0.3.1` package line.
 
 ## Background And Goals
 
@@ -10,30 +10,12 @@ the user's repository.
 
 Goals:
 
-- Keep the cold-start prompt short enough for a user to tell their agent to run `npx -y harnessize@latest`
-  and follow its guidance.
+- Keep the cold-start prompt short enough for a user to tell their agent to run
+  `npx -y harnessize@latest` and follow its guidance.
 - Keep generated repository guidance thin and stable.
 - Use root context as the stable agent-facing workflow entrypoint.
 - Load focused topic guidance only when user intent needs it.
 - Dogfood the same documentation and context rules inside this repository.
-
-## References
-
-- [Decision 0001](../decisions/0001-thin-agent-facing-harness.md): Thin agent-facing harness and
-  stable `AGENTS.md` handoff.
-- [Decision 0002](../decisions/0002-brainstorm-topic.md): `brainstorm` topic behavior and mandatory
-  discussion recording.
-- [Decision 0003](../decisions/0003-root-context-guidelines.md): Root context routing and
-  documentation index maintenance.
-- [Decision 0004](../decisions/0004-grill-topic.md): `grill` topic behavior and separation from
-  `brainstorm`.
-- [Decision 0005](../decisions/0005-feature-docs-topic.md): `feature` topic and feature production
-  material governance.
-- [Decision 0006](../decisions/0006-agent-behavior-guidelines-topic.md): `conduct` baseline and
-  domain behavior guidelines.
-- Runtime implementation: `src/context.ts`
-- CLI behavior tests: `test/cli.test.ts`
-- Repository agent handoff: `AGENTS.md`
 
 ## User Stories
 
@@ -41,10 +23,12 @@ Goals:
   harnessing entrypoint.
 - As a repository user, I can ask my agent to run `npx -y harnessize@latest context` and receive root
   workflow guidance without topic-specific noise.
-- As an agent, I can choose `brainstorm`, `grill`, `feature`, or `conduct` based on user intent and
-  artifact maturity.
-- As an agent, I can maintain durable decision records and authoritative feature materials without
-  overloading the user with long visible replies.
+- As an agent, I can choose `brainstorm`, `grill`, `feature`, `caseset`, `verify`, or `conduct`
+  based on user intent and artifact maturity.
+- As an agent, I can maintain durable decision records, authoritative feature materials, and
+  semantic use cases without overloading the user with long visible replies.
+- As an agent, I can use `verify` as a quality gate to choose evidence, run relevant checks, repair
+  clear failures, and escalate only when blocked or when authority is unclear.
 - As a future maintainer, I can start from `AGENTS.md`, reach `docs/README.md`, and then navigate to
   the relevant decision or feature material.
 
@@ -57,6 +41,8 @@ npx -y harnessize@latest context
 npx -y harnessize@latest context brainstorm
 npx -y harnessize@latest context grill
 npx -y harnessize@latest context feature
+npx -y harnessize@latest context caseset
+npx -y harnessize@latest context verify
 npx -y harnessize@latest context conduct
 ```
 
@@ -71,7 +57,7 @@ invocations.
 Focused topics provide deeper agent-facing workflow guidance only after the root context determines
 the current user intent needs them.
 
-## Feature Design
+## Feature Design And Functional Breakdown
 
 - `src/context.ts` owns the topic registry, root context formatting, topic lookup, and topic body
   text.
@@ -79,8 +65,13 @@ the current user intent needs them.
   project direction or durable knowledge.
 - `grill` is for pressure-testing a concrete plan, design, architecture, PRD, or implementation
   approach.
-- `feature` is for maintaining feature-level production materials, including feature specs,
-  semantic use cases, artifact references, and authoritative feature state.
+- `feature` is for maintaining feature-level production materials, including feature specs, artifact
+  references, and authoritative feature state.
+- `caseset` is for maintaining semantic use case sets inside feature specs, including case shape,
+  grouping, coverage, review, and repair guidance.
+- `verify` is for quality-gate evidence selection, check execution, result interpretation,
+  self-healing, and escalation when correctness, readiness, safety, or regression confidence needs
+  proof.
 - `conduct` extends root baseline conduct for production work or durable project changes, with
   domain extensions such as coding conduct inside the same topic. It does not restate the baseline.
 - `AGENTS.md` remains thin. It points agents to root context and the repository documentation index,
@@ -88,7 +79,7 @@ the current user intent needs them.
   tell agents to reload it if conversation compaction removes it from short-term memory.
 - Repository documentation indexes are materialized in `docs/README.md` and per-domain index files.
 
-## Functional Breakdown
+Functional responsibilities:
 
 - Root context:
   - Explain harnessize's progressive context model.
@@ -98,9 +89,9 @@ the current user intent needs them.
     short-term memory.
   - Preserve ordinary Q&A outside focused topics when no production or durable knowledge impact
     exists.
-  - Route exploration to `brainstorm`, concrete critique to `grill`, and feature production
-    material maintenance to `feature`.
-  - Route production actions and domain extension needs to `conduct`.
+  - Route exploration to `brainstorm`, concrete critique to `grill`, feature production material
+    maintenance to `feature`, semantic use case set maintenance to `caseset`, quality-gate work to
+    `verify`, and production actions or domain extension needs to `conduct`.
   - Require complete repository documentation indexes with concise summaries and traceable retrieval
     chains.
 - Brainstorm topic:
@@ -114,8 +105,26 @@ the current user intent needs them.
 - Feature topic:
   - Create or update `docs/features/<feature-slug>.md` when feature-level production material is
     defined or changed.
+  - Use a simplified feature spec structure: Background And Goals, User Intent Or User Stories,
+    Product And Interaction Design, Feature Design And Functional Breakdown, Semantic Use Cases, and
+    References And Artifacts.
   - Keep feature specs authoritative, concise, and free of task execution logs.
   - Maintain `docs/features/README.md` whenever feature specs change.
+- Caseset topic:
+  - Maintain semantic use cases inside feature specs rather than creating a separate artifact by
+    default.
+  - Require detailed, searchable case descriptions with preconditions, actions, and assertions.
+  - Group cases by scenario or risk area.
+  - Encourage coverage of normal flows, boundaries, invalid states, constraints, and regressions.
+  - Repair cases when facts or corrected requirements show that an existing case is wrong.
+- Verify topic:
+  - Identify the claim being verified before choosing checks.
+  - Select enough evidence for the current risk, blast radius, and available repository signals.
+  - Use semantic use cases as verification inputs without treating them as infallible.
+  - Self-heal clear failures and rerun relevant checks.
+  - Escalate to humans only when blocked, expected behavior is ambiguous, or authority needs
+    confirmation.
+  - Avoid durable verification logs by default.
 - Conduct topic:
   - Extend root baseline conduct for production work and domain-specific needs without restating the
     baseline.
@@ -124,62 +133,131 @@ the current user intent needs them.
   - Include domain extensions inside the topic when sharper behavior guidance is needed.
   - Use coding conduct for implementation, refactoring, and review work with emphasis on repository
     fit, restraint, correctness, and clear handoff.
+  - Guide unit-test management inside the coding extension, without treating 100% coverage as a
+    default goal.
 
 ## Semantic Use Cases
 
-- Given a user asks ordinary Q&A with no production or durable knowledge impact
-  When the agent reads root context
-  Then the agent answers normally without entering a focused topic.
+### Topic Routing
 
-- Given a user is exploring or clarifying an unclear project direction
-  When the agent reads root context
-  Then the agent enters `brainstorm`, keeps replies concise, and records the discussion flow.
+- Case: Ordinary question-and-answer work stays outside focused topics when it does not affect
+  production work, project knowledge, or later decisions.
+  Preconditions: The user asks a lightweight question and no durable repository state or project
+  direction is affected.
+  Action: The agent reads root context and evaluates topic routing.
+  Assertions: The agent answers normally without entering a focused topic.
 
-- Given a user has a concrete plan that needs critique
-  When the agent reads root context
-  Then the agent enters `grill` and pressure-tests one risk area at a time.
+- Case: Exploratory or unclear project direction enters brainstorm and creates a durable discussion
+  record with sources and compact turn summaries.
+  Preconditions: The user is analyzing, researching, clarifying, discussing, or shaping an idea that
+  may affect project direction or durable knowledge.
+  Action: The agent reads root context and then `context brainstorm`.
+  Assertions: The agent keeps visible replies concise, records the discussion flow, preserves
+  sources, and asks only low-burden decisions.
 
-- Given work defines or changes feature-level production material
-  When the agent reads `context feature`
-  Then the agent creates or updates the feature spec and updates the feature index.
+- Case: A concrete plan, design, architecture, PRD, or implementation approach is pressure-tested in
+  grill instead of being treated as early brainstorm.
+  Preconditions: The user provides or asks to test a concrete proposal.
+  Action: The agent reads root context and then `context grill`.
+  Assertions: The agent pressure-tests one risk area at a time and offers concrete objections,
+  recommended defaults, and small decisions.
 
-- Given an agent starts harnessize-guided repository work
-  When the agent reads root context
-  Then the agent receives the authoritative baseline conduct before choosing any focused topic.
+- Case: Feature-level production material is maintained through feature when current authoritative
+  feature state changes.
+  Preconditions: Work defines, changes, or relies on feature specs, product behavior, interaction
+  design, implementation direction, artifact references, or authoritative feature state.
+  Action: The agent reads `context feature`.
+  Assertions: The agent creates or updates the relevant feature spec and updates the feature index
+  when required.
 
-- Given an agent needs production behavior guidance beyond the root baseline
-  When the agent reads `context conduct`
-  Then the agent applies production extensions without restating or replacing the root baseline.
+- Case: Semantic use case set maintenance enters caseset when cases are created, expanded, reviewed,
+  or repaired inside a feature spec.
+  Preconditions: A feature spec needs semantic use cases, a behavior change affects cases, or
+  verification exposes a missing or incorrect expectation.
+  Action: The agent reads `context caseset` along with the relevant feature material.
+  Assertions: Cases stay inside the feature spec, use detailed semantic descriptions, include
+  preconditions, actions, and assertions, and are grouped by scenario or risk area.
 
-- Given an agent is making implementation changes
-  When the agent reads `context conduct`
-  Then the agent follows the coding domain extension without needing a separate root topic.
+- Case: Quality-gate verification enters verify when the agent needs evidence that work is correct
+  enough to continue or close.
+  Preconditions: A change, implementation, document update, release step, or feature behavior needs
+  correctness, readiness, safety, or regression confidence.
+  Action: The agent reads `context verify`, identifies the claim, selects relevant evidence, runs
+  checks, and self-heals clear failures when practical.
+  Assertions: The agent closes only when the quality gate passes, is intentionally narrowed, or the
+  remaining risk is explicit; the agent escalates only when blocked or when authority is unclear.
 
-- Given an agent is about to make a durable project change
-  When the agent reads root context
-  Then the agent applies the root baseline and loads `conduct` when production extensions are needed.
+- Case: Durable production work loads conduct when focused topic guidance does not fully cover
+  execution behavior.
+  Preconditions: The agent is about to change code, docs, tests, design materials, release
+  artifacts, or other durable repository state.
+  Action: The agent reads `context conduct` after root context and any material-specific focused
+  topic.
+  Assertions: The agent identifies the durable surface, expected behavior change, likely
+  verification path, and production handoff requirements.
 
-- Given a user proposes a solution that may conflict with evidence, constraints, or the user's stated
-  goals
-  When the agent reads root context
-  Then the agent investigates enough context, surfaces contradictions, and asks for clarification,
-  redirects, or refuses instead of blindly executing.
+- Case: Coding conduct guides unit test management without demanding blanket test coverage.
+  Preconditions: The agent is writing, modifying, refactoring, or reviewing implementation code.
+  Action: The agent reads `context conduct` and evaluates whether unit tests are useful for the
+  changed behavior.
+  Assertions: Unit tests are added or updated for low-level, heavily reused, boundary-rich, stable,
+  regression-related, or behavior-contract-changing code, using the repository's existing test
+  stack and patterns.
 
-- Given an agent resumes after conversation context compaction
-  When the root context is no longer available in short-term memory
-  Then the agent reloads root context before continuing repository work.
+### Session Bootstrap And Recovery
 
-- Given documentation is added, moved, renamed, or materially changed
-  When the agent completes the change
-  Then the relevant index and retrieval chain are updated.
+- Case: Harnessize-guided repository work starts with root context so the agent receives baseline
+  conduct before choosing focused topics.
+  Preconditions: The agent starts repository work under harnessize guidance.
+  Action: The agent reads `npx -y harnessize@latest context`.
+  Assertions: The agent receives session rules, baseline conduct, documentation maintenance rules,
+  and topic routing before loading focused topics.
 
-## Production Artifacts
+- Case: Context compaction recovery reloads root context before continuing repository work.
+  Preconditions: Conversation context has been compacted or the agent no longer has root context in
+  short-term memory.
+  Action: The agent reruns `npx -y harnessize@latest context`.
+  Assertions: The agent restores the baseline and topic routing before making further repository
+  changes.
 
+- Case: A user-proposed solution is evaluated against evidence, constraints, and project goals
+  instead of being blindly executed.
+  Preconditions: The user proposes a solution that may be incomplete, inconsistent, or wrong.
+  Action: The agent reads root context and investigates enough surrounding context.
+  Assertions: The agent surfaces contradictions and asks for clarification, redirects, or refuses
+  when evidence, safety, constraints, or the user's stated goals require it.
+
+### Documentation Maintenance
+
+- Case: Documentation index maintenance preserves a traceable retrieval chain when docs change.
+  Preconditions: Documentation is added, moved, renamed, removed, or materially changed.
+  Action: The agent updates the relevant domain index and checks the retrieval path from
+  `AGENTS.md` through `docs/README.md`.
+  Assertions: Index summaries stay concise, links remain complete, and future agents can choose the
+  right material to read.
+
+## References And Artifacts
+
+- [Decision 0001](../decisions/0001-thin-agent-facing-harness.md): Thin agent-facing harness and
+  stable `AGENTS.md` handoff.
+- [Decision 0002](../decisions/0002-brainstorm-topic.md): `brainstorm` topic behavior and mandatory
+  discussion recording.
+- [Decision 0003](../decisions/0003-root-context-guidelines.md): Root context routing and
+  documentation index maintenance.
+- [Decision 0004](../decisions/0004-grill-topic.md): `grill` topic behavior and separation from
+  `brainstorm`.
+- [Decision 0005](../decisions/0005-feature-docs-topic.md): `feature` topic and feature production
+  material governance.
+- [Decision 0006](../decisions/0006-agent-behavior-guidelines-topic.md): `conduct` baseline and
+  domain behavior guidelines.
+- [Decision 0008](../decisions/0008-next-topic-candidates.md): `caseset` topic design, semantic use
+  case maintenance rules, `verify` topic design, and related unit-test conduct guidance.
 - npm package: `harnessize`
 - GitHub repository: `https://github.com/miserylee/harnessize`
 - Public package docs: `README.md`
 - Runtime source: `src/context.ts`
-- CLI tests: `test/cli.test.ts`
+- CLI behavior tests: `test/cli.test.ts`
+- Repository agent handoff: `AGENTS.md`
 - Repository docs index: `docs/README.md`
 - Feature index: `docs/features/README.md`
 
