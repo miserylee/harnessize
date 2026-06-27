@@ -29,3 +29,6 @@ project state exists.
   decision-record boundaries separate.
 - [0008: Next Topic Candidates](0008-next-topic-candidates.md): Tracks `caseset` and `verify` topic
   design and implementation, plus related unit-test conduct guidance.
+- [0009: Next Direction After Core Topics](0009-next-direction-after-core-topics.md): Tracks the
+  post-core-topic topic admission criteria, rejected `survey` and `release` candidates, and the
+  implemented `review` topic for findings-first production material review.

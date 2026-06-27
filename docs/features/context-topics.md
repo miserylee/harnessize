@@ -23,12 +23,14 @@ Goals:
   harnessing entrypoint.
 - As a repository user, I can ask my agent to run `npx -y harnessize@latest context` and receive root
   workflow guidance without topic-specific noise.
-- As an agent, I can choose `brainstorm`, `grill`, `feature`, `caseset`, `verify`, or `conduct`
+- As an agent, I can choose `brainstorm`, `grill`, `feature`, `caseset`, `verify`, `review`, or `conduct`
   based on user intent and artifact maturity.
 - As an agent, I can maintain durable decision records, authoritative feature materials, and
   semantic use cases without overloading the user with long visible replies.
 - As an agent, I can use `verify` as a quality gate to choose evidence, run relevant checks, repair
   clear failures, and escalate only when blocked or when authority is unclear.
+- As an agent, I can use `review` to assess existing production material or new worktree changes
+  before handoff, stage transition, or external effect.
 - As a future maintainer, I can start from `AGENTS.md`, reach `docs/README.md`, and then navigate to
   the relevant decision or feature material.
 
@@ -43,6 +45,7 @@ npx -y harnessize@latest context grill
 npx -y harnessize@latest context feature
 npx -y harnessize@latest context caseset
 npx -y harnessize@latest context verify
+npx -y harnessize@latest context review
 npx -y harnessize@latest context conduct
 ```
 
@@ -56,6 +59,11 @@ invocations.
 
 Focused topics provide deeper agent-facing workflow guidance only after the root context determines
 the current user intent needs them.
+
+New focused topics should pass a clear admission bar before being added. A topic should have
+non-default workflow value, cross-repository portability, clear trigger timing, and low overlap with
+existing topics. Candidate guidance that merely restates default agent behavior should be folded into
+root, `conduct`, `verify`, or project documentation instead of becoming a standalone topic.
 
 ## Feature Design And Functional Breakdown
 
@@ -72,8 +80,15 @@ the current user intent needs them.
 - `verify` is for quality-gate evidence selection, check execution, result interpretation,
   self-healing, and escalation when correctness, readiness, safety, or regression confidence needs
   proof.
+- `review` is for findings-first review of existing production materials and worktree changes,
+  especially before handoff, stage transition, or external effect.
 - `conduct` extends root baseline conduct for production work or durable project changes, with
   domain extensions such as coding conduct inside the same topic. It does not restate the baseline.
+- Topic admission criteria keep the system small. Add a focused topic only when the candidate:
+  - Guides behavior that agents do not already perform reliably by default.
+  - Applies across repositories without encoding one technology stack's workflow as universal.
+  - Has a clear trigger that agents can recognize from user intent or production state.
+  - Does not substantially duplicate root context, `conduct`, `verify`, or another focused topic.
 - `AGENTS.md` remains thin. It points agents to root context and the repository documentation index,
   not to a hardcoded list of focused topics. It must require root context as session bootstrap and
   tell agents to reload it if conversation compaction removes it from short-term memory.
@@ -91,7 +106,8 @@ Functional responsibilities:
     exists.
   - Route exploration to `brainstorm`, concrete critique to `grill`, feature production material
     maintenance to `feature`, semantic use case set maintenance to `caseset`, quality-gate work to
-    `verify`, and production actions or domain extension needs to `conduct`.
+    `verify`, findings-first review to `review`, and production actions or domain extension needs to
+    `conduct`.
   - Require complete repository documentation indexes with concise summaries and traceable retrieval
     chains.
 - Brainstorm topic:
@@ -125,6 +141,18 @@ Functional responsibilities:
   - Escalate to humans only when blocked, expected behavior is ambiguous, or authority needs
     confirmation.
   - Avoid durable verification logs by default.
+- Review topic:
+  - Assess existing production materials or new worktree changes as independent findings-first
+    review.
+  - Support targeted review of modules, code paths, documents, feature materials, prototypes, demos,
+    design materials, release materials, or other production artifacts.
+  - Support worktree review by inspecting git status and git diff before push or handoff.
+  - Use authoritative materials and `verify` evidence when needed, without creating review artifacts
+    by default.
+  - Report material findings with `P0`/`P1`/`P2`, evidence, impact, and suggested action.
+  - Self-heal only clear, small, low-risk issues with enough authoritative context.
+  - Block for P0 findings, major contradictions with authority, or design and architecture impacts
+    that need user decision.
 - Conduct topic:
   - Extend root baseline conduct for production work and domain-specific needs without restating the
     baseline.
@@ -187,6 +215,24 @@ Functional responsibilities:
   Assertions: The agent closes only when the quality gate passes, is intentionally narrowed, or the
   remaining risk is explicit; the agent escalates only when blocked or when authority is unclear.
 
+- Case: Targeted review enters review when the user asks for independent assessment of an existing
+  production material.
+  Preconditions: The user asks to review a module, code path, document, feature material, prototype,
+  demo, design material, release material, or another production artifact.
+  Action: The agent reads `context review`, gathers relevant authoritative materials, inspects the
+  target, and runs verification checks only when needed for evidence.
+  Assertions: The agent returns findings-first output, self-heals only clear and low-risk issues
+  with enough authoritative context, and blocks for issues requiring user decision.
+
+- Case: Worktree review enters review when repository changes are about to be pushed or handed off.
+  Preconditions: The agent has made or is assessing new worktree changes and the material is about to
+  be handed off, moved to a new stage, or made externally effective.
+  Action: The agent reads `context review`, inspects git status and git diff, gathers relevant
+  authoritative materials, and reviews the changed production material.
+  Assertions: The agent treats code, feature docs, prototypes, demos, design materials, release
+  materials, and other production artifacts as reviewable production material; material findings are
+  reported with `P0`/`P1`/`P2`, evidence, impact, and suggested action.
+
 - Case: Durable production work loads conduct when focused topic guidance does not fully cover
   execution behavior.
   Preconditions: The agent is about to change code, docs, tests, design materials, release
@@ -203,6 +249,14 @@ Functional responsibilities:
   Assertions: Unit tests are added or updated for low-level, heavily reused, boundary-rich, stable,
   regression-related, or behavior-contract-changing code, using the repository's existing test
   stack and patterns.
+
+- Case: A proposed focused topic is rejected or folded into existing guidance when it only restates
+  default agent behavior or overlaps heavily with current topics.
+  Preconditions: A candidate topic is proposed for future harnessize guidance.
+  Action: The agent evaluates the candidate against topic admission criteria.
+  Assertions: The candidate is added only when it has non-default workflow value, cross-repository
+  portability, a clear trigger, and low overlap with existing topics; otherwise the guidance is
+  folded into root, `conduct`, `verify`, or project documentation.
 
 ### Session Bootstrap And Recovery
 
@@ -252,6 +306,8 @@ Functional responsibilities:
   domain behavior guidelines.
 - [Decision 0008](../decisions/0008-next-topic-candidates.md): `caseset` topic design, semantic use
   case maintenance rules, `verify` topic design, and related unit-test conduct guidance.
+- [Decision 0009](../decisions/0009-next-direction-after-core-topics.md): Post-core-topic
+  discussion, focused topic admission criteria, and `review` topic design.
 - npm package: `harnessize`
 - GitHub repository: `https://github.com/miserylee/harnessize`
 - Public package docs: `README.md`

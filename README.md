@@ -40,6 +40,7 @@ npx -y harnessize@latest context grill
 npx -y harnessize@latest context feature
 npx -y harnessize@latest context caseset
 npx -y harnessize@latest context verify
+npx -y harnessize@latest context review
 npx -y harnessize@latest context conduct
 ```
 
@@ -61,6 +62,9 @@ searchable, reviewable, and useful for later verification.
 
 `verify` guides quality-gate evidence selection, checks, self-healing, and escalation when the agent
 needs confidence that work is correct enough to continue or close.
+
+`review` guides findings-first review of production materials and worktree changes before handoff,
+stage transition, or external effect.
 
 `conduct` guides agent behavior before production work or durable project changes, and includes
 domain extensions such as coding conduct for implementation, refactoring, and review work.

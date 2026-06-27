@@ -323,6 +323,62 @@ Next: <only if user action or follow-up is needed>
 `,
 };
 
+const reviewTopic: ContextTopic = {
+  name: 'review',
+  summary: 'Guide findings-first review of production materials and worktree changes.',
+  body: `# harnessize context: review
+
+Use this topic when the user asks for review of an existing module, code path, document, feature material, prototype, demo, design material, release material, or other production artifact.
+
+Also use this topic as a gate when production material is about to be handed off, moved to a new production stage, or made externally effective. For code worktrees, the default gate is before push or handoff unless the user explicitly skips review.
+
+## Purpose
+
+Find defects, regressions, inconsistencies, missing tests, missing cases, and production risks before material is handed off or acted on.
+
+Review is findings-first. It should not become a general summary, a praise pass, a broad refactor, or a durable artifact.
+
+## Review Modes
+
+- Targeted review: inspect the requested module, code path, document, feature material, prototype, demo, design material, release material, or other production artifact.
+- Worktree review: inspect new repository changes with git status and git diff, then review the changed production material as a gate.
+
+## Operating Rules
+
+- Identify the review target, review mode, and gate being protected.
+- Gather relevant authority before making findings: feature specs, semantic use cases, decision records, design materials, docs, tests, configuration, changed files, or other repository sources.
+- In worktree review mode, inspect git status and git diff before judging the change.
+- Check the material against its own purpose and authority: correctness, behavior, regressions, consistency, missing tests or use cases, user-facing effects, security or data risks, maintainability, and documentation or artifact drift.
+- Use \`verify\` when checks are needed for evidence, but keep review output as findings instead of a verification report.
+- Do not create durable review artifacts or logs by default.
+- Self-heal only when the issue is clear, small, low-risk, and supported by authoritative context. Rerun relevant checks after self-healing.
+- Block the flow for P0 findings, major contradictions with authoritative material, or design or architecture impacts that need human judgment. Enter \`brainstorm\` when a decision flow is needed.
+- Respect explicit user requests to skip a review gate, but make the skipped risk visible when it matters.
+
+## Finding Severity
+
+- P0: Blocks the gate. The issue can cause incorrect handoff, clear violation of authoritative material, safety/security/data risk, or major design or architecture harm. Fix it or involve the user before proceeding.
+- P1: Should be resolved before handoff. The issue materially affects correctness, maintainability, coverage, or user-facing quality. Self-heal when the fix is clear and low-risk.
+- P2: Non-blocking issue such as consistency, polish, minor maintainability, or documentation detail. Report it or self-heal when cheap and safe.
+
+## Reporting
+
+Only user-visible findings need structure. Internal inspection, verification, and self-healing do not need a template or artifact.
+
+- If no material findings remain, state that the review passed and name the scope and evidence briefly.
+- If small issues were self-healed, briefly state what changed and what was checked.
+- If findings need user attention, lead with findings ordered by severity. For each finding, include severity, evidence, impact, and suggested action.
+- If the review blocks, say what blocks the flow and what decision or fix is needed.
+
+## Boundaries
+
+- \`grill\` pressure-tests a concrete plan before execution.
+- \`verify\` proves a claim with evidence and checks.
+- \`conduct\` guides production execution behavior.
+- \`review\` independently assesses existing production material or new changes and reports findings.
+`,
+};
+
 const conductTopic: ContextTopic = {
   name: 'conduct',
   summary: 'Extend root baseline conduct for production work, durable changes, and domains.',
@@ -408,6 +464,7 @@ const topics = [
   featureTopic,
   casesetTopic,
   verifyTopic,
+  reviewTopic,
   conductTopic,
 ] as const;
 
@@ -502,6 +559,7 @@ export function formatRootContext(): string {
     '- Use `feature` when maintaining feature-level production materials such as feature specs, semantic use cases, artifact references, or authoritative feature state.',
     '- Use `caseset` when creating, reviewing, expanding, or repairing semantic use cases inside a feature spec.',
     '- Use `verify` when the agent needs a quality gate for correctness, readiness, safety, or regression confidence.',
+    '- Use `review` when the user asks for review of existing production material, or when production material is about to be handed off, moved to a new stage, or made externally effective.',
     '- Use `conduct` before production actions such as code changes, documentation changes, tests, design work, refactoring, review, or release work.',
     '- Combine `conduct` with another focused topic when that topic defines the material type but production or domain guidance is still needed.',
     '- If unsure whether a topic is needed, answer normally first and enter `brainstorm` only when the work becomes decision-bearing.',

@@ -80,6 +80,7 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('caseset'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('verify'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('review'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('conduct'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('ordinary Q&A'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Documentation Maintenance'));
@@ -158,6 +159,23 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('self-heal'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Evidence Selection'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Claim: <what is being verified>'));
+  });
+
+  it('prints the review topic', async () => {
+    const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+    await expect(run(['context', 'review'], '/workspace')).resolves.toBe(0);
+
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('# harnessize context: review'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('findings-first'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Worktree review'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('git status and git diff'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('P0'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('P1'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('P2'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Do not create durable review artifacts'),
+    );
   });
 
   it('prints the conduct topic', async () => {

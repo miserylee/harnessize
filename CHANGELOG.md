@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.0
+
+- Add `harnessize context review` for findings-first review of production materials and worktree
+  changes.
+- Route review requests and production material handoff, stage transition, or external effect to the
+  `review` topic.
+- Document focused topic admission criteria so future topics need clear non-default value,
+  cross-repository portability, clear triggers, and low overlap with existing topics.
+- Refine the README promotional illustration cutout.
+
 ## 0.4.0
 
 - Add `harnessize context caseset` for semantic use case set maintenance inside feature specs.
