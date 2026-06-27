@@ -1,7 +1,7 @@
 # harnessize
 
 <p align="center">
-  <img src="assets/harnessize-promo.png" alt="harnessize promotional illustration" width="640">
+  <img src="assets/harnessize-promo.png" alt="harnessize promotional illustration">
 </p>
 
 `harnessize` is a CLI for preparing repositories for AI harness workflows.
