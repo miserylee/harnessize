@@ -194,6 +194,11 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Identify the durable surface being changed'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('repository freshness matters'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('remote upstream or base branch'));
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Do not rebase over dirty worktrees'),
+    );
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Baseline conduct lives in root context'),
     );

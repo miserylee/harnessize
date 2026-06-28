@@ -35,3 +35,6 @@ project state exists.
 - [0010: Brainstorm Record Subject Boundaries](0010-brainstorm-record-subject-boundaries.md): Refines
   `brainstorm` recording so agents choose records by subject relevance, start separate records for
   new issues, and treat the 50-turn split as a length rule rather than a topic-mixing rule.
+- [0011: Branch Sync And Rebase Conduct](0011-branch-sync-and-rebase.md): Adds `conduct` guidance
+  for checking branch alignment with the remote upstream or base branch when repository freshness
+  matters, and rebasing only when it is safe for user work.

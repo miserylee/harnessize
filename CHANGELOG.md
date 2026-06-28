@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.2
+
+- Add `conduct` guidance for checking branch alignment with the remote upstream or base branch when
+  repository freshness matters, and rebasing only when the stale branch can be safely integrated.
+
 ## 0.5.1
 
 - Refine `brainstorm` recording rules so agents choose records by subject relevance, start separate

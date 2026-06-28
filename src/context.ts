@@ -409,6 +409,8 @@ Do not treat this topic as a standalone replacement for root context. It adds pr
 - Identify the durable surface being changed: code, docs, tests, design materials, release artifacts, or repository state.
 - Load any focused topic that owns the material type, such as \`feature\` for authoritative feature materials.
 - Before editing, identify the owning files, relevant references, expected behavior change, and likely verification path.
+- When repository freshness matters, such as before long-running work, review gates, push, release, or handoff, check whether the current branch is aligned with its remote upstream or base branch. Fetch when appropriate; if the branch is stale and rebase is the right integration path, rebase only when the worktree and conflict risk make it safe.
+- Do not rebase over dirty worktrees, unresolved conflicts, or user changes without a safe preservation path. Ask when the operation may rewrite or conflict with user work.
 - Keep production handoff tied to behavior, verification, residual risk, and any unresolved user decision.
 
 ## Extension Boundary

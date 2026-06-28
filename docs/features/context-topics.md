@@ -31,6 +31,8 @@ Goals:
   clear failures, and escalate only when blocked or when authority is unclear.
 - As an agent, I can use `review` to assess existing production material or new worktree changes
   before handoff, stage transition, or external effect.
+- As an agent, I can check branch alignment with the remote upstream or base branch when repository
+  freshness matters, and rebase only when it is safe for user work.
 - As a future maintainer, I can start from `AGENTS.md`, reach `docs/README.md`, and then navigate to
   the relevant decision or feature material.
 
@@ -84,6 +86,8 @@ root, `conduct`, `verify`, or project documentation instead of becoming a standa
   especially before handoff, stage transition, or external effect.
 - `conduct` extends root baseline conduct for production work or durable project changes, with
   domain extensions such as coding conduct inside the same topic. It does not restate the baseline.
+  Its production extension also covers repository freshness checks, including branch alignment with
+  the remote upstream or base branch before key gates when freshness matters.
 - Topic admission criteria keep the system small. Add a focused topic only when the candidate:
   - Guides behavior that agents do not already perform reliably by default.
   - Applies across repositories without encoding one technology stack's workflow as universal.
@@ -163,6 +167,12 @@ Functional responsibilities:
     baseline.
   - Identify durable production surfaces, owning files, references, expected behavior changes, and
     likely verification paths.
+  - Check current branch alignment with the remote upstream or base branch before long-running work,
+    review gates, push, release, or handoff when repository freshness matters.
+  - Fetch when appropriate; rebase only when the branch is stale, rebase is the right integration
+    path, and the operation is safe.
+  - Do not rebase over dirty worktrees, unresolved conflicts, or user changes without a safe
+    preservation path.
   - Include domain extensions inside the topic when sharper behavior guidance is needed.
   - Use coding conduct for implementation, refactoring, and review work with emphasis on repository
     fit, restraint, correctness, and clear handoff.
@@ -256,6 +266,16 @@ Functional responsibilities:
   Assertions: The agent identifies the durable surface, expected behavior change, likely
   verification path, and production handoff requirements.
 
+- Case: Conduct checks branch freshness before key repository gates when remote state may matter.
+  Preconditions: The agent is starting long-running production work, entering a review gate, pushing,
+  releasing, handing off, or otherwise depending on current repository state.
+  Action: The agent reads `context conduct`, checks the current branch against the remote upstream or
+  intended base branch, fetches when appropriate, and rebases only when the branch is stale, rebase
+  is the right integration path, and the operation is safe for the worktree and user changes.
+  Assertions: The agent does not proceed on a stale branch without noticing; it does not rebase over
+  dirty worktrees, unresolved conflicts, or user changes without a safe preservation path; it asks
+  when the rebase risk cannot be safely inferred.
+
 - Case: Coding conduct guides unit test management without demanding blanket test coverage.
   Preconditions: The agent is writing, modifying, refactoring, or reviewing implementation code.
   Action: The agent reads `context conduct` and evaluates whether unit tests are useful for the
@@ -324,6 +344,8 @@ Functional responsibilities:
   discussion, focused topic admission criteria, and `review` topic design.
 - [Decision 0010](../decisions/0010-brainstorm-record-subject-boundaries.md): Brainstorm record
   selection by subject relevance and separate records for new issues.
+- [Decision 0011](../decisions/0011-branch-sync-and-rebase.md): Branch freshness checks and safe
+  rebase conduct for production work.
 - npm package: `harnessize`
 - GitHub repository: `https://github.com/miserylee/harnessize`
 - Public package docs: `README.md`
