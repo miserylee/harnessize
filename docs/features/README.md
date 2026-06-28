@@ -7,8 +7,8 @@ execution logs, or todos.
 ## Feature Specs
 
 - [Context Topics](context-topics.md): Defines the progressive context topic system, including root
-  context routing, focused topic admission criteria, and the current `brainstorm`, `grill`,
-  `feature`, `caseset`, `verify`, `review`, and `conduct` topics.
+  context routing, brainstorm record boundaries, focused topic admission criteria, and the current
+  `brainstorm`, `grill`, `feature`, `caseset`, `verify`, `review`, and `conduct` topics.
 
 ## Maintenance Rules
 

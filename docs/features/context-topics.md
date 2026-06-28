@@ -114,6 +114,11 @@ Functional responsibilities:
   - Keep visible replies concise and localized.
   - Create a MUST-record obligation when active.
   - Preserve compact turn-level summaries, sources, decisions, open questions, and follow-up items.
+  - Choose or create brainstorm records by subject relevance rather than recency.
+  - Start a separate record when a discussion introduces a new issue, capability, product question,
+    or decision area.
+  - Treat the 50-turn split as a length limit for one coherent subject, not as a substitute for
+    subject-based record separation.
 - Grill topic:
   - Test one concrete plan risk area at a time.
   - Inspect available context before asking the user.
@@ -181,7 +186,16 @@ Functional responsibilities:
   may affect project direction or durable knowledge.
   Action: The agent reads root context and then `context brainstorm`.
   Assertions: The agent keeps visible replies concise, records the discussion flow, preserves
-  sources, and asks only low-burden decisions.
+  sources, chooses or creates the record by subject relevance, and asks only low-burden decisions.
+
+- Case: A new brainstorm issue creates a separate record instead of being appended to an unrelated
+  recent record.
+  Preconditions: The current brainstorm discussion introduces a new issue, capability, product
+  question, or decision area that does not belong to the active record's coherent subject.
+  Action: The agent reads `context brainstorm`, evaluates existing record relevance, and creates or
+  chooses the appropriate record.
+  Assertions: The new discussion is not appended to an unrelated recent record; indexes and
+  cross-links are updated when needed so the retrieval chain stays complete.
 
 - Case: A concrete plan, design, architecture, PRD, or implementation approach is pressure-tested in
   grill instead of being treated as early brainstorm.
@@ -308,6 +322,8 @@ Functional responsibilities:
   case maintenance rules, `verify` topic design, and related unit-test conduct guidance.
 - [Decision 0009](../decisions/0009-next-direction-after-core-topics.md): Post-core-topic
   discussion, focused topic admission criteria, and `review` topic design.
+- [Decision 0010](../decisions/0010-brainstorm-record-subject-boundaries.md): Brainstorm record
+  selection by subject relevance and separate records for new issues.
 - npm package: `harnessize`
 - GitHub repository: `https://github.com/miserylee/harnessize`
 - Public package docs: `README.md`

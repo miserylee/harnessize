@@ -32,3 +32,6 @@ project state exists.
 - [0009: Next Direction After Core Topics](0009-next-direction-after-core-topics.md): Tracks the
   post-core-topic topic admission criteria, rejected `survey` and `release` candidates, and the
   implemented `review` topic for findings-first production material review.
+- [0010: Brainstorm Record Subject Boundaries](0010-brainstorm-record-subject-boundaries.md): Refines
+  `brainstorm` recording so agents choose records by subject relevance, start separate records for
+  new issues, and treat the 50-turn split as a length rule rather than a topic-mixing rule.

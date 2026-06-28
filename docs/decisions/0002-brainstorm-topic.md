@@ -67,6 +67,13 @@ Long-running brainstorm records should be split after 50 discussion turns. This 
 log from becoming expensive for agents to read and keeps future retrieval focused. The split policy
 should preserve chronology and link related parts together.
 
+A later refinement in [Decision 0010](0010-brainstorm-record-subject-boundaries.md) clarifies that
+record selection is subject-based. Agents should continue an existing brainstorm record only when the
+current discussion belongs to the same coherent issue, capability, product question, or decision
+thread. New issues should start separate records even when the same broad `brainstorm` topic remains
+active. The 50-turn split is a length rule for one coherent subject, not a replacement for
+subject-based separation.
+
 ## Working Guidance
 
 A `brainstorm` response should usually:

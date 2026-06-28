@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.1
+
+- Refine `brainstorm` recording rules so agents choose records by subject relevance, start separate
+  records for new issues, and treat the 50-turn split as a length limit for one coherent subject.
+
 ## 0.5.0
 
 - Add `harnessize context review` for findings-first review of production materials and worktree

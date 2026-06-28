@@ -43,6 +43,9 @@ Reduce the user's cognitive load while moving ambiguous work toward clear decisi
 - Entering \`brainstorm\` creates a MUST-record obligation.
 - Maintain a durable record of the discussion flow while the topic is active: compact turn-level summaries, user intent and constraints, agent research and reasoning, sources, decisions, material research findings, assumptions, open questions, rejected alternatives, and follow-up items.
 - If no durable record location exists yet, create or choose one before continuing the brainstorm, or explicitly tell the user that recording is blocked.
+- Choose the record location by subject relevance, not by recency. Continue an existing record only when the current discussion belongs to the same coherent topic, decision thread, or feature question.
+- Start a separate record when the user introduces a new issue, capability, product question, or decision area, even if the same broad harnessize topic remains active.
+- Do not append unrelated discussion to the latest or currently open record merely because it exists.
 - Record research findings when they influence topic selection, product direction, implementation strategy, risk assessment, or a later decision.
 - Preserve information sources. For web research, include the title or source name and URL. For repository research, include the file path. For knowledge-base or tool research, include the retrievable resource identifier when available.
 - Include enough source or context information for a future agent to understand why the finding mattered.
@@ -51,6 +54,7 @@ Reduce the user's cognitive load while moving ambiguous work toward clear decisi
 - Use concise numeric timezone offsets, for example: 2026-06-27 00:12 +08:00.
 - Records are not only final conclusions. Preserve compact per-turn summaries of important question-and-answer flow so future agents can understand how decisions were reached.
 - Split long-running brainstorm records after 50 discussion turns.
+- Treat the 50-turn split as a length limit for one coherent subject. It does not replace subject-based record separation.
 - When splitting, preserve chronology and link the previous and next files.
 - When exiting the topic, decide whether durable conclusions should be promoted into a long-lived document or knowledge base.
 - If an investigation materially changes the discussion, update the working record near that point instead of waiting until topic exit.
