@@ -25,8 +25,9 @@ project state exists.
   root baseline relationship, critical evaluation of user direction, and `conduct` domain extensions
   for agent behavior guidelines.
 - [0007: Project Development Boundaries](0007-project-development-boundaries.md): Defines where
-  project development norms live and how to keep repository-local, distributed, dogfood, and
-  decision-record boundaries separate.
+  project development norms live, how to keep repository-local, distributed, dogfood, and
+  decision-record boundaries separate, and the requirement to smoke test the latest remote package
+  after release.
 - [0008: Next Topic Candidates](0008-next-topic-candidates.md): Tracks `caseset` and `verify` topic
   design and implementation, plus related unit-test conduct guidance.
 - [0009: Next Direction After Core Topics](0009-next-direction-after-core-topics.md): Tracks the

@@ -12,13 +12,13 @@ This repository uses harnessize for thin, progressive agent guidance.
    before acting on repository work:
 
    ```sh
-   node dist/cli.js context
+   node dist/bin.js context
    ```
 
    After changing CLI source, run `npm run build` before relying on `dist`.
 
 Treat the root context as required session bootstrap. If conversation context has been compacted or
-your short-term memory no longer contains the harnessize root context, run `node dist/cli.js context`
+your short-term memory no longer contains the harnessize root context, run `node dist/bin.js context`
 again before continuing repository work.
 
 Follow the root context to choose any focused topic supported by the local dogfood harnessize version.

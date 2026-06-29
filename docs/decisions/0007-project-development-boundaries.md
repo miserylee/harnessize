@@ -22,7 +22,7 @@ Project development norms belong primarily in `CONTRIBUTING.md`.
 
 1. `docs/README.md` for local repository knowledge.
 2. `CONTRIBUTING.md` for development workflow and boundary rules.
-3. `node dist/cli.js context` for dogfood root context guidance.
+3. `node dist/bin.js context` for dogfood root context guidance.
 
 Distributed package behavior belongs in `src/` and built `dist/`. Rules placed in runtime context
 output must be appropriate for user repositories, not only for this repository's internal workflow.
@@ -43,6 +43,9 @@ Distribution review should remove private workspace leakage and accidental inter
 but it must preserve legitimate open-source metadata, public repository links, changelog history,
 and accurate dogfood/scaffold status when they help users understand the package.
 
+After a version is published, smoke test the latest remote npm package instead of relying only on
+local `dist` or dry-run checks.
+
 ## Discussion Record
 
 ### Turn 1 - Clarify development norms and boundaries - 2026-06-27 03:58 +08:00
@@ -60,4 +63,18 @@ and accurate dogfood/scaffold status when they help users understand the package
 - Decisions: Put repository development norms in `CONTRIBUTING.md`; keep distributed `conduct`
   focused on user-repository-appropriate behavior; use decision records to preserve corrections and
   boundary decisions.
+- Open questions: None.
+
+### Turn 2 - Add remote package smoke after release - 2026-06-29 13:13 +08:00
+
+- User signal: The user asked that after future releases, the latest remote version should also be
+  smoke-tested.
+- Agent work: The release checklist was extended to run remote npm smoke checks after publishing,
+  and the project-boundary decision was updated because this is a repository release workflow rule.
+- Sources:
+  - `CONTRIBUTING.md`
+  - `docs/decisions/0007-project-development-boundaries.md`
+- Decisions: Release verification should include post-publish smoke testing against
+  `npx -y harnessize@latest`, such as `context` and `--version`, so published package behavior is
+  checked independently from local build and package dry-run results.
 - Open questions: None.

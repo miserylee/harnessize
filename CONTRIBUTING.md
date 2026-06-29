@@ -11,7 +11,7 @@ Keep these surfaces separate:
   links, changelog history, and accurate dogfood status are allowed.
 - Repository-local agent guidance: `AGENTS.md` and `docs/`. These may include dogfood workflow,
   decision records, local documentation indexes, and project-specific development context.
-- Runtime context output: source in `src/context.ts` and built output in `dist/cli.js`. This is
+- Runtime context output: source in `src/context.ts` and built output in `dist/bin.js`. This is
   distributed behavior and must stay agent-facing, general, and user-repository appropriate.
 
 Do not move rules across those boundaries just because they are related. A project development rule
@@ -82,3 +82,9 @@ Releases are published by GitHub Actions when a GitHub Release is published.
 2. Merge the release change.
 3. Create a GitHub Release whose tag is `v<package.json version>`.
 4. The publish workflow validates the tag, builds the package, and publishes to npm.
+5. After npm publishing completes, smoke test the latest remote package, for example:
+
+   ```sh
+   npx -y harnessize@latest context
+   npx -y harnessize@latest --version
+   ```

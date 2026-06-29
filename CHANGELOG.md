@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.3
+
+- Fix npm/npx CLI execution by splitting the executable bin wrapper from the importable CLI module.
+- Add regression coverage for symlinked package bin execution and side-effect-free CLI imports.
+- Document post-release smoke testing against the latest remote npm package.
+
 ## 0.5.2
 
 - Add `conduct` guidance for checking branch alignment with the remote upstream or base branch when

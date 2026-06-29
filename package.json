@@ -1,6 +1,6 @@
 {
   "name": "harnessize",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "CLI for preparing repositories for AI harness workflows.",
   "type": "module",
   "main": "./dist/cli.js",
@@ -13,7 +13,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "harnessize": "dist/cli.js"
+    "harnessize": "dist/bin.js"
   },
   "files": [
     "dist",
@@ -23,8 +23,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsup src/cli.ts --format esm --target node22 --dts --clean",
-    "dev": "tsx src/cli.ts",
+    "build": "tsup src/cli.ts src/bin.ts --format esm --target node22 --dts --clean",
+    "dev": "tsx src/bin.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint src test",

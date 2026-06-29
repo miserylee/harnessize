@@ -47,7 +47,7 @@ should carry the same thin `AGENTS.md` style expected from user repositories.
 For this repository's dogfood state, `AGENTS.md` should use the local built CLI:
 
 ```sh
-node dist/cli.js context
+node dist/bin.js context
 ```
 
 User repositories should continue to use the stable npm handoff:
@@ -156,6 +156,25 @@ long time. Root context is the stable handoff point.
 - Decisions: Recommended `npx` invocation should be non-interactive by default, using
   `npx -y harnessize@latest`, so agent cold-start and context recovery do not stall on package
   execution confirmation.
+- Open questions: None.
+
+### Turn 6 - Split importable CLI logic from executable bin - 2026-06-29 13:05 +08:00
+
+- User signal: The user asked why direct-run entry comparison was needed, then asked to replace it
+  with a cleaner split.
+- Agent work: The CLI module was separated from the executable wrapper so importing CLI helpers no
+  longer requires direct-run detection. Package and dogfood entrypoints were updated to use the
+  executable bin wrapper.
+- Sources:
+  - `src/cli.ts`
+  - `src/bin.ts`
+  - `package.json`
+  - `package-lock.json`
+  - `AGENTS.md`
+  - `CONTRIBUTING.md`
+  - `test/cli.test.ts`
+- Decisions: `dist/cli.js` remains the importable package API, while `dist/bin.js` is the executable
+  CLI target for npm bin execution and local dogfood context loading.
 - Open questions: None.
 
 ## Non-Goals For The First Implementation Pass

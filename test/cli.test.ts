@@ -1,8 +1,14 @@
-import { resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync, symlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CliError, helpText, parseArgs, run } from '../src/cli.js';
+
+const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 describe('parseArgs', () => {
   it('uses the current directory as the default target', () => {
@@ -40,6 +46,43 @@ describe('helpText', () => {
   it('documents npx usage', () => {
     expect(helpText()).toContain('npx -y harnessize@latest [target] [options]');
     expect(helpText()).toContain('npx -y harnessize@latest context [topic]');
+  });
+});
+
+describe('bin entrypoint', () => {
+  it('does not run when the CLI module is imported', () => {
+    const result = spawnSync(
+      process.execPath,
+      ['--import', 'tsx', '--input-type=module', '--eval', 'await import("./src/cli.ts");'],
+      {
+        cwd: repoRoot,
+        encoding: 'utf8',
+      },
+    );
+
+    expect(result.status).toBe(0);
+    expect(result.stderr).toBe('');
+    expect(result.stdout).toBe('');
+  });
+
+  it('runs through a symlinked package bin', () => {
+    const tempDir = mkdtempSync(join(tmpdir(), 'harnessize-cli-'));
+
+    try {
+      const sourceBinPath = fileURLToPath(new URL('../src/bin.ts', import.meta.url));
+      const binPath = join(tempDir, 'harnessize');
+      symlinkSync(sourceBinPath, binPath);
+      const result = spawnSync(process.execPath, ['--import', 'tsx', binPath, 'context'], {
+        cwd: repoRoot,
+        encoding: 'utf8',
+      });
+
+      expect(result.status).toBe(0);
+      expect(result.stderr).toBe('');
+      expect(result.stdout).toContain('# harnessize context');
+    } finally {
+      rmSync(tempDir, { force: true, recursive: true });
+    }
   });
 });
 

@@ -1,8 +1,6 @@
-#!/usr/bin/env node
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import process from 'node:process';
-import { pathToFileURL } from 'node:url';
 
 import {
   formatContextTopic,
@@ -170,13 +168,4 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
 
   process.stdout.write(`${formatHarnessPlan(plan)}\n`);
   return 0;
-}
-
-function isDirectRun(): boolean {
-  const entrypoint = process.argv[1];
-  return Boolean(entrypoint && import.meta.url === pathToFileURL(entrypoint).href);
-}
-
-if (isDirectRun()) {
-  process.exitCode = await run(process.argv.slice(2));
 }
