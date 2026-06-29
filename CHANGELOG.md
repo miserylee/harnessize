@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.6.0
 
 - Enable real init writing for thin `AGENTS.md` harness guidance, plus default Claude Code and
   Cursor adapter files that delegate to `AGENTS.md`.
