@@ -10,6 +10,7 @@ import { CliError, helpText, parseArgs, run } from '../src/cli.js';
 
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 const tempDirs: string[] = [];
+const symlinkIt = process.platform === 'win32' ? it.skip : it;
 
 function createTempDir(): string {
   const tempDir = mkdtempSync(resolve(tmpdir(), 'harnessize-'));
@@ -77,7 +78,7 @@ describe('bin entrypoint', () => {
     expect(result.stdout).toBe('');
   });
 
-  it('runs through a symlinked package bin', () => {
+  symlinkIt('runs through a symlinked package bin', () => {
     const tempDir = mkdtempSync(join(tmpdir(), 'harnessize-cli-'));
 
     try {
