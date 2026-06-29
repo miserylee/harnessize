@@ -97,9 +97,10 @@ Application loop:
 3. Form an explicit plan before changing durable state.
 4. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.
 5. Choose the existing or simplest sufficient path.
-6. Move in focused, reversible steps.
-7. Verify what changed.
-8. Report the outcome, limits, and any needed user decision concisely.
+6. Default to the smallest reversible step that answers the current evidence.
+7. Move in focused, reversible steps.
+8. Verify what changed.
+9. Report the outcome, limits, and any needed user decision concisely.
 
 Baseline rules:
 
@@ -118,12 +119,14 @@ Baseline rules:
    changes that are easy to inspect or undo when practical.
 8. Prefer useful small steps: keep changes, questions, and user-facing messages focused.
 9. Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.
-10. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
+10. Budget complexity: add architecture, abstractions, artifacts, tests, dependencies, or process
+    only when they address a concrete current risk, required contract, or proven duplication.
+11. Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete
     reason.
-11. Verify before closing: run relevant checks or clearly report what could not be verified.
-12. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
+12. Verify before closing: run relevant checks or clearly report what could not be verified.
+13. Communicate with low cognitive load: keep replies concise, concrete, and localized to the user's
     language context; compress filler, not necessary technical content.
-13. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
+14. Keep guidance positive and necessary: avoid defensive prohibitions unless they prevent likely,
     material harm.
 
 Focused topics can extend this baseline for specific work types, but should not restate or replace
@@ -502,4 +505,41 @@ Guideline for this topic:
   - `test/cli.test.ts`
   - `docs/decisions/0008-next-topic-candidates.md`
 - Decisions: Keep unit-test management inside `context conduct` as coding-domain guidance.
+- Open questions: None.
+
+### Turn 22 - Overdesign across discussion design and implementation - 2026-06-29 13:30 +08:00
+
+- User signal: The user observed that agents tend to over-engineer during discussion, design, and
+  implementation.
+- Agent work: Existing root and `conduct` guidance was reviewed. It already prefers existing paths,
+  simple sufficient solutions, and implementation restraint, but the rules are spread across root
+  baseline and coding conduct and do not define a shared cross-phase complexity budget.
+- Sources:
+  - `node dist/bin.js context brainstorm`
+  - `src/context.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: No runtime rule change yet. The likely fix should be a small cross-phase restraint
+  rule or decision gate that applies before proposing architecture, documents, tests, abstractions,
+  or implementation machinery.
+- Open questions: Whether the guard should live in root baseline conduct, the `conduct` production
+  extension, or both with different wording.
+
+### Turn 23 - Implement cross-phase complexity budget - 2026-06-29 13:52 +08:00
+
+- User signal: The user asked to implement the overdesign restraint.
+- Agent work: Root context was updated with a smallest-reversible-step loop item and a complexity
+  budget rule. `conduct` was updated to scope discussion, design, and implementation to current
+  evidence. CLI output tests and the context topics feature spec were updated to protect the
+  behavior.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/features/README.md`
+  - `docs/decisions/0006-agent-behavior-guidelines-topic.md`
+- Decisions: Put the cross-phase restraint in root baseline because it applies before discussion,
+  design, and implementation choices. Add production-specific wording in `conduct` so durable work
+  does not grow architecture, artifacts, tests, abstractions, process, or release machinery without
+  a concrete current justification.
 - Open questions: None.

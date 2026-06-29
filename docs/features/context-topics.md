@@ -104,6 +104,9 @@ Functional responsibilities:
   - Explain harnessize's progressive context model.
   - Identify `npx -y harnessize@latest context` as the non-interactive root guideline command.
   - Provide the authoritative baseline conduct contract before any focused topic is loaded.
+  - Set a cross-phase complexity budget: default to the smallest reversible step that answers the
+    current evidence, and add architecture, abstractions, artifacts, tests, dependencies, or process
+    only for a concrete current risk, required contract, or proven duplication.
   - Instruct agents to reload root context after conversation compaction when it is no longer in
     short-term memory.
   - Preserve ordinary Q&A outside focused topics when no production or durable knowledge impact
@@ -167,6 +170,9 @@ Functional responsibilities:
     baseline.
   - Identify durable production surfaces, owning files, references, expected behavior changes, and
     likely verification paths.
+  - Keep discussion, design, and implementation scoped to current evidence so production work does
+    not grow architecture, artifacts, tests, abstractions, process, or release machinery without a
+    concrete current reason.
   - Check current branch alignment with the remote upstream or base branch before long-running work,
     review gates, push, release, or handoff when repository freshness matters.
   - Fetch when appropriate; rebase only when the branch is stale, rebase is the right integration
@@ -265,6 +271,16 @@ Functional responsibilities:
   topic.
   Assertions: The agent identifies the durable surface, expected behavior change, likely
   verification path, and production handoff requirements.
+
+- Case: Cross-phase restraint keeps discussion, design, and implementation from expanding beyond
+  current evidence.
+  Preconditions: The agent is discussing, designing, or implementing a solution and could add extra
+  architecture, documents, tests, abstractions, dependencies, process, or release machinery.
+  Action: The agent reads root context and `context conduct` when production work is involved, then
+  checks whether the extra complexity addresses a concrete current risk, required contract, or
+  proven duplication.
+  Assertions: The agent defaults to the smallest reversible step that answers the current evidence;
+  extra machinery is omitted or deferred unless it has a concrete current justification.
 
 - Case: Conduct checks branch freshness before key repository gates when remote state may matter.
   Preconditions: The agent is starting long-running production work, entering a review gate, pushing,

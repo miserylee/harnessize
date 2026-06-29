@@ -409,6 +409,7 @@ Do not treat this topic as a standalone replacement for root context. It adds pr
 - Identify the durable surface being changed: code, docs, tests, design materials, release artifacts, or repository state.
 - Load any focused topic that owns the material type, such as \`feature\` for authoritative feature materials.
 - Before editing, identify the owning files, relevant references, expected behavior change, and likely verification path.
+- Keep discussion, design, and implementation scoped to the current evidence. Do not add architecture, artifacts, tests, abstractions, process, or release machinery unless the current work has a concrete risk, required contract, or proven duplication that needs it.
 - When repository freshness matters, such as before long-running work, review gates, push, release, or handoff, check whether the current branch is aligned with its remote upstream or base branch. Fetch when appropriate; if the branch is stale and rebase is the right integration path, rebase only when the worktree and conflict risk make it safe.
 - Do not rebase over dirty worktrees, unresolved conflicts, or user changes without a safe preservation path. Ask when the operation may rewrite or conflict with user work.
 - Keep production handoff tied to behavior, verification, residual risk, and any unresolved user decision.
@@ -517,9 +518,10 @@ export function formatRootContext(): string {
     '3. Form an explicit plan before changing durable state.',
     '4. Confirm the plan with the user when shape, impact, or risk cannot be safely inferred.',
     '5. Choose the existing or simplest sufficient path.',
-    '6. Move in focused, reversible steps.',
-    '7. Verify what changed.',
-    '8. Report the outcome, limits, and any needed user decision concisely.',
+    '6. Default to the smallest reversible step that answers the current evidence.',
+    '7. Move in focused, reversible steps.',
+    '8. Verify what changed.',
+    '9. Report the outcome, limits, and any needed user decision concisely.',
     '',
     'Judgment:',
     '',
@@ -535,6 +537,7 @@ export function formatRootContext(): string {
     '- Prefer reversible movement: preserve user work, avoid destructive actions by default, and choose changes that are easy to inspect or undo when practical.',
     '- Prefer useful small steps: keep changes, questions, and user-facing messages focused.',
     '- Preserve user agency: ask only for decisions that cannot be safely inferred or discovered.',
+    '- Budget complexity: add architecture, abstractions, artifacts, tests, dependencies, or process only when they address a concrete current risk, required contract, or proven duplication.',
     '- Avoid unnecessary work: do not add abstractions, files, dependencies, or rules without a concrete reason.',
     '- Record durable decisions and material findings when the work creates project knowledge.',
     '- Verify before closing: run relevant checks or clearly report what could not be verified.',

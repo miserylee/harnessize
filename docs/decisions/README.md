@@ -22,8 +22,8 @@ project state exists.
   lifecycle design, authoritative feature production materials, feature specs, and the handoff to
   `caseset` for semantic use case maintenance.
 - [0006: Agent Behavior Guidelines Topic](0006-agent-behavior-guidelines-topic.md): Defines the
-  root baseline relationship, critical evaluation of user direction, and `conduct` domain extensions
-  for agent behavior guidelines.
+  root baseline relationship, critical evaluation of user direction, cross-phase complexity
+  restraint, and `conduct` domain extensions for agent behavior guidelines.
 - [0007: Project Development Boundaries](0007-project-development-boundaries.md): Defines where
   project development norms live, how to keep repository-local, distributed, dogfood, and
   decision-record boundaries separate, and the requirement to smoke test the latest remote package

@@ -113,11 +113,13 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Form an explicit plan before changing durable state'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('smallest reversible step'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Prefer the existing path'));
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('rerun `npx -y harnessize@latest context`'),
     );
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Evaluate user direction'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Budget complexity'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('brainstorm'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('grill'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('feature'));
@@ -237,6 +239,7 @@ describe('run', () => {
     expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('Identify the durable surface being changed'),
     );
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('scoped to the current evidence'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('repository freshness matters'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('remote upstream or base branch'));
     expect(stdout).toHaveBeenCalledWith(

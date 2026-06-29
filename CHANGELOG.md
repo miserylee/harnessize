@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.4
+
+- Add cross-phase complexity restraint to root context so agents default to the smallest reversible
+  step supported by current evidence.
+- Extend `conduct` guidance to keep discussion, design, and implementation from adding architecture,
+  artifacts, tests, abstractions, process, or release machinery without a concrete current reason.
+
 ## 0.5.3
 
 - Fix npm/npx CLI execution by splitting the executable bin wrapper from the importable CLI module.
