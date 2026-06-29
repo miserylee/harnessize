@@ -9,7 +9,8 @@ execution logs, or todos.
 - [Context Topics](context-topics.md): Defines the progressive context topic system, including root
   context routing, brainstorm record boundaries, focused topic admission criteria, and the current
   `brainstorm`, `grill`, `feature`, `caseset`, `verify`, `review`, and `conduct` topics, including
-  cross-phase complexity restraint, branch freshness, and safe rebase conduct.
+  brainstorm repeated-question avoidance, cross-phase complexity restraint, branch freshness, and
+  safe rebase conduct.
 
 ## Maintenance Rules
 

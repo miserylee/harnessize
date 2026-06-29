@@ -10,8 +10,8 @@ project state exists.
   npm CLI that initializes minimal repository guidance, keeps generated `AGENTS.md` stable, and
   requires non-interactive root context bootstrap instead of embedding topic lists.
 - [0002: Brainstorm Topic](0002-brainstorm-topic.md): Defines the `brainstorm` topic for concise
-  decision-bearing discussion, mandatory durable recording, sourced turn summaries, localized
-  response templates, and 50-turn record splitting.
+  decision-bearing discussion, mandatory durable recording, sourced turn summaries, repeated-question
+  avoidance, localized response templates, and 50-turn record splitting.
 - [0003: Root Context Guidelines](0003-root-context-guidelines.md): Defines root context as
   agent-facing soft orchestration guidance, topic routing, ordinary Q&A boundaries, and repository
   documentation index maintenance rules, including the authoritative baseline conduct contract,

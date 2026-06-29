@@ -34,6 +34,11 @@ retrieving relevant knowledge-base context when available.
 The agent should ask the user only for information that cannot be safely inferred or discovered, and
 should keep the decision burden low.
 
+Before asking, the agent should check the current conversation and active subject record for settled
+answers, assumptions, constraints, and open questions. Prior answers should be reused as constraints.
+The agent should ask again only when the prior answer is missing, ambiguous, stale, or contradicted
+by new evidence, and should say why the question is being reopened.
+
 Entering `brainstorm` creates a MUST-record obligation. The agent must maintain a durable record of
 the discussion flow while the topic is active. The durable record should capture turn-level
 summaries, user intent and constraints, agent research and reasoning, sources, decisions, material
@@ -80,10 +85,11 @@ A `brainstorm` response should usually:
 
 1. State the current focus briefly.
 2. Share only the minimum useful conclusion from investigation.
-3. Ask for the next human decision only when needed.
-4. Record the key turn summary, settled decisions, material research findings, rejected alternatives,
+3. Check the current conversation and active subject record before asking the user.
+4. Ask for the next human decision only when needed and not already answered.
+5. Record the key turn summary, settled decisions, material research findings, rejected alternatives,
    and important open questions with date and time.
-5. Keep the visible answer small; move supporting detail into the record when it matters later.
+6. Keep the visible answer small; move supporting detail into the record when it matters later.
 
 If no durable record location exists yet, the agent should create or choose one before continuing
 the brainstorm, or explicitly tell the user that recording is blocked.
@@ -97,7 +103,9 @@ The agent should avoid:
 5. Waiting until the end of a long discussion to record research findings that are already shaping
    decisions.
 6. Sending long answers that make the user work to find the key point.
-7. Continuing in `brainstorm` without a known place to record.
+7. Repeating a question that was already answered unless the prior answer is missing, ambiguous,
+   stale, or contradicted by new evidence.
+8. Continuing in `brainstorm` without a known place to record.
 
 ## Response Template
 
@@ -197,4 +205,41 @@ What threshold should trigger automatic distillation when the user exits or redi
   - `src/context.ts`
 - Decisions: `brainstorm` cannot continue without a known durable record location; if recording is
   blocked, the agent must say so.
+- Open questions: None.
+
+### Turn 4 - Avoid repeated questions in brainstorm - 2026-06-29 15:39 +08:00
+
+- User signal: The user observed that agents sometimes ask questions during `brainstorm` that were
+  already discussed earlier.
+- Agent work: Existing brainstorm guidance was reviewed. It requires background work, low-burden
+  questions, and compact turn-level records, but it does not explicitly require agents to consult
+  settled decisions and open questions before asking again.
+- Sources:
+  - `node dist/bin.js context brainstorm`
+  - `src/context.ts`
+  - `docs/features/context-topics.md`
+  - `docs/decisions/0002-brainstorm-topic.md`
+- Decisions: No runtime rule change yet. The likely fix is to make each brainstorm question pass a
+  memory check: consult the active subject record and conversation context first; reuse settled
+  answers as constraints; ask again only when the prior answer is missing, ambiguous, stale, or
+  contradicted by new evidence.
+- Open questions: Whether to implement this as a brainstorm operating rule, a response-template
+  expectation, or both.
+
+### Turn 5 - Implement brainstorm question memory check - 2026-06-29 15:40 +08:00
+
+- User signal: The user asked to implement the repeated-question fix and release it.
+- Agent work: `brainstorm` operating rules were updated so agents check current conversation and the
+  active subject record before asking, reuse prior answers as constraints, and reopen a question
+  only when the prior answer is missing, ambiguous, stale, or contradicted by new evidence. Tests and
+  the context topics feature spec were updated to protect the behavior.
+- Sources:
+  - `src/context.ts`
+  - `test/cli.test.ts`
+  - `docs/features/context-topics.md`
+  - `docs/features/README.md`
+  - `docs/decisions/0002-brainstorm-topic.md`
+  - `docs/decisions/README.md`
+- Decisions: Implement repeated-question avoidance as a `brainstorm` operating rule and working
+  guidance expectation, not a new topic or separate process.
 - Open questions: None.

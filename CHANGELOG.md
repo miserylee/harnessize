@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.5
+
+- Add brainstorm question memory checks so agents consult the current conversation and active
+  subject record before asking.
+- Require agents to reuse prior brainstorm answers as constraints and reopen questions only when
+  earlier answers are missing, ambiguous, stale, or contradicted by new evidence.
+
 ## 0.5.4
 
 - Add cross-phase complexity restraint to root context so agents default to the smallest reversible

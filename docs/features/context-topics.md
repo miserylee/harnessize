@@ -119,6 +119,9 @@ Functional responsibilities:
     chains.
 - Brainstorm topic:
   - Keep visible replies concise and localized.
+  - Check the current conversation and active subject record before asking, then reuse prior
+    answers as constraints unless they are missing, ambiguous, stale, or contradicted by new
+    evidence.
   - Create a MUST-record obligation when active.
   - Preserve compact turn-level summaries, sources, decisions, open questions, and follow-up items.
   - Choose or create brainstorm records by subject relevance rather than recency.
@@ -203,6 +206,15 @@ Functional responsibilities:
   Action: The agent reads root context and then `context brainstorm`.
   Assertions: The agent keeps visible replies concise, records the discussion flow, preserves
   sources, chooses or creates the record by subject relevance, and asks only low-burden decisions.
+
+- Case: Brainstorm avoids repeating questions that already have usable answers.
+  Preconditions: The agent is in an active brainstorm and is about to ask for clarification or a
+  decision.
+  Action: The agent checks the current conversation and active subject record for prior answers,
+  settled decisions, assumptions, constraints, and open questions.
+  Assertions: The agent reuses prior answers as constraints and asks again only when the earlier
+  answer is missing, ambiguous, stale, or contradicted by new evidence; when asking again, it states
+  why the question is being reopened.
 
 - Case: A new brainstorm issue creates a separate record instead of being appended to an unrelated
   recent record.

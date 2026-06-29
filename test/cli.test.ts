@@ -152,6 +152,8 @@ describe('run', () => {
     );
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('MUST-record obligation'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('3-6 short lines'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('active subject record'));
+    expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Reuse prior answers'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('material research findings'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('subject relevance'));
     expect(stdout).toHaveBeenCalledWith(expect.stringContaining('Start a separate record'));

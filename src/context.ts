@@ -33,7 +33,9 @@ Reduce the user's cognitive load while moving ambiguous work toward clear decisi
 - Default to 3-6 short lines plus the localized template unless the user asks for more detail.
 - Focus each turn on one key point or one tightly scoped decision area.
 - Do reasonable background work before asking the user to decide.
+- Before asking, check the current conversation and active subject record for settled answers, assumptions, constraints, and open questions.
 - Ask only for information that cannot be safely inferred or discovered.
+- Reuse prior answers as constraints. Ask again only when the prior answer is missing, ambiguous, stale, or contradicted by new evidence, and state why the question is being reopened.
 - Keep each human decision small enough to answer quickly.
 - Move supporting detail into the durable record when it matters later instead of overloading the visible reply.
 - If the user briefly interrupts with unrelated work, handle it and return to the brainstorm thread unless they clearly exit or redirect.
