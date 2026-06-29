@@ -8,7 +8,7 @@ import {
   getContextTopic,
   UnknownContextTopicError,
 } from './context.js';
-import { createHarnessPlan, formatHarnessPlan } from './index.js';
+import { applyHarnessPlan, formatHarnessPlan } from './index.js';
 
 const require = createRequire(import.meta.url);
 const packageJson = require('../package.json') as { version: string };
@@ -156,7 +156,7 @@ export async function run(args: string[], cwd = process.cwd()): Promise<number> 
     }
   }
 
-  const plan = createHarnessPlan({
+  const plan = applyHarnessPlan({
     dryRun: options.dryRun,
     targetDir: options.targetDir,
   });

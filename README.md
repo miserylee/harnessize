@@ -10,9 +10,8 @@
 npx -y harnessize@latest
 ```
 
-The repository is currently in its initial scaffold phase. The CLI already exposes the command
-shape, option parsing, build pipeline, tests, and release automation; the concrete repository
-harnessing behavior will be added next.
+The CLI exposes the command shape, context topics, build pipeline, tests, and release automation.
+The default init flow creates a thin `AGENTS.md` harness handoff when one does not already exist.
 
 ## Usage
 
@@ -27,6 +26,27 @@ Options:
 - `--json`: print the plan as JSON.
 - `-h, --help`: show help.
 - `-v, --version`: show the package version.
+
+## Harnessization
+
+By default, `harnessize` creates `AGENTS.md` as the repository's single source of truth for
+agent-facing harness guidance. Existing instruction files are not overwritten; the CLI reports a
+skip so the agent can merge a small harnessize handoff manually when needed.
+
+Harnessize also creates thin adapter files by default so repositories behave consistently across
+multiple coding agents:
+
+```sh
+npx -y harnessize@latest
+```
+
+This keeps `AGENTS.md` as the canonical harness document while adding thin routing files for tools
+with different conventions:
+
+- Codex uses `AGENTS.md` directly.
+- Claude Code gets `CLAUDE.md`, which imports `AGENTS.md`.
+- Cursor gets `.cursor/rules/harnessize.mdc`, an always-applied project rule that references
+  `AGENTS.md`.
 
 ## Context Topics
 

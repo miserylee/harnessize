@@ -39,3 +39,6 @@ project state exists.
 - [0011: Branch Sync And Rebase Conduct](0011-branch-sync-and-rebase.md): Adds `conduct` guidance
   for checking branch alignment with the remote upstream or base branch when repository freshness
   matters, and rebasing only when it is safe for user work.
+- [0012: Multi-Agent Adapter SSOT](0012-multi-agent-adapter-ssot.md): Defines `AGENTS.md` as the
+  harness guidance single source of truth and records default thin adapters for Codex, Claude Code,
+  and Cursor.

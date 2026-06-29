@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync, symlinkSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,6 +9,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CliError, helpText, parseArgs, run } from '../src/cli.js';
 
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
+const tempDirs: string[] = [];
+
+function createTempDir(): string {
+  const tempDir = mkdtempSync(resolve(tmpdir(), 'harnessize-'));
+  tempDirs.push(tempDir);
+  return tempDir;
+}
 
 describe('parseArgs', () => {
   it('uses the current directory as the default target', () => {
@@ -39,6 +46,11 @@ describe('parseArgs', () => {
 
   it('rejects unknown options', () => {
     expect(() => parseArgs(['--unknown'], '/workspace')).toThrow(CliError);
+  });
+
+  it('does not accept adapter mode flags because agent coverage is default', () => {
+    expect(() => parseArgs(['--agent-adapters'], '/workspace')).toThrow(CliError);
+    expect(() => parseArgs(['--multi-agent'], '/workspace')).toThrow(CliError);
   });
 });
 
@@ -89,6 +101,28 @@ describe('bin entrypoint', () => {
 describe('run', () => {
   afterEach(() => {
     vi.restoreAllMocks();
+
+    for (const tempDir of tempDirs.splice(0)) {
+      rmSync(tempDir, { force: true, recursive: true });
+    }
+  });
+
+  it('writes harness and adapter files through init by default', async () => {
+    const tempDir = createTempDir();
+    const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+    await expect(run([tempDir], '/workspace')).resolves.toBe(0);
+
+    expect(readFileSync(resolve(tempDir, 'AGENTS.md'), 'utf8')).toContain(
+      'npx -y harnessize@latest context',
+    );
+    expect(readFileSync(resolve(tempDir, 'CLAUDE.md'), 'utf8')).toContain('@AGENTS.md');
+    expect(readFileSync(resolve(tempDir, '.cursor/rules/harnessize.mdc'), 'utf8')).toContain(
+      '@AGENTS.md',
+    );
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('Agent coverage: Codex, Claude Code, Cursor'),
+    );
   });
 
   it('prints root context guidelines', async () => {

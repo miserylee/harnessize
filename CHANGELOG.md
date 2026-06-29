@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Enable real init writing for thin `AGENTS.md` harness guidance, plus default Claude Code and
+  Cursor adapter files that delegate to `AGENTS.md`.
+
 ## 0.5.5
 
 - Add brainstorm question memory checks so agents consult the current conversation and active

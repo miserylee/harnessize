@@ -11,6 +11,8 @@ execution logs, or todos.
   `brainstorm`, `grill`, `feature`, `caseset`, `verify`, `review`, and `conduct` topics, including
   brainstorm repeated-question avoidance, cross-phase complexity restraint, branch freshness, and
   safe rebase conduct.
+- [Multi-Agent Adapters](multi-agent-adapters.md): Defines the `AGENTS.md` single-source-of-truth
+  model for harnessization and the default thin adapter files for Codex, Claude Code, and Cursor.
 
 ## Maintenance Rules
 
